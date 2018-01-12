@@ -1,19 +1,10 @@
-# Yuansfer PHP SDK
+<?php
+require dirname(__DIR__) . '/vendor/autoload.php';
 
-[Yuansfer Online API](https://docs.yuansfer.com/)
+use Yuansfer\Yuansfer;
+use Yuansfer\Exception\YuansferException;
 
-PHP >= 5.3
-
-## Installation
-
-``composer require "yuansfer/yuansfer-php-sdk:dev-master"``
-
-## Usage
-
-Please see [examples](https://github.com/yuansfer/yuansfer-php-sdk/tree/master/example)
-
-### 1. Init
-```php
+//init
 $config = array(
     Yuansfer::MERCHANT_NO => 'The merchant NO.',
     Yuansfer::STORE_NO => 'The store NO.',
@@ -22,55 +13,28 @@ $config = array(
 );
 
 $yuansfer = new Yuansfer($config);
-```
 
-### 2. Create API
-```php
+// recommend: pass the test first
+$yuansfer->setTestMode();
+
+// create api
 $api = $yuansfer->createSecurePay();
-```
 
-### 3. Set API Parameters
-```php
+// set api parameters
 $api
     ->setAmount(9.9) //The amount of the transaction.
     ->setCurrency('USD') // The currency, USD, CAD supported yet.
     ->setVendor('alipay') // The payment channel, alipay, wechatpay, unionpay are supported yet.
     ->setTerminal('ONLINE') // ONLINE, WAP
-    ->setReference('44444') //The unque ID of client¡¯s system.
+    ->setReference('44444') //The unque ID of clientâ€™s system.
     ->setIpnUrl('./SecurePayCallbackIpn.php') // The asynchronous callback method.
     ->setCallbackUrl('./SecurePayCallback.php'); // The Synchronous callback method.
-```
 
-### 4.1. Send to API
-```php
-$response = $api->send();
-```
-
-### 4.2. Use Test Mode
-```php
-$yuansfer->setTestMode();
-$response = $api->send();
-```
-
-### 5.1. SecurePay API return HTML
-```php
-echo $response;
-```
-
-### 5.2. Others API return JSON, already decoded to array  
-```php
-var_dump(is_array($response)); // bool(true)
-
-if ($response['ret_code'] === '000100') {
-    echo 'success';
-}
-```
-
-### 6. Exception when Send to API
-```php
 try {
-    $response = $api->send();
-} catch (\Yuansfer\Exception\YuansferException $e) {
+    // send to api get response
+    // SecurePay api return html
+    echo $api->send();
+} catch (YuansferException $e) {
     // http connect error
     if ($e instanceof \Yuansfer\Exception\HttpClientException) {
         $message = $e->getMessage();
@@ -87,4 +51,3 @@ try {
         $message = 'The param: ' . $e->getParam() . ' is empty, in API: ' . $e->getApi();
     }
 }
-```
