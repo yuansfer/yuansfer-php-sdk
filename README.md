@@ -36,7 +36,7 @@ $api
     ->setCurrency('USD') // The currency, USD, CAD supported yet.
     ->setVendor('alipay') // The payment channel, alipay, wechatpay, unionpay are supported yet.
     ->setTerminal('ONLINE') // ONLINE, WAP
-    ->setReference('44444') //The unque ID of client¡¯s system.
+    ->setReference('44444') //The unque ID of client's system.
     ->setIpnUrl('./SecurePayCallbackIpn.php') // The asynchronous callback method.
     ->setCallbackUrl('./SecurePayCallback.php'); // The Synchronous callback method.
 ```
@@ -54,11 +54,19 @@ $response = $api->send();
 
 ### 5.1. SecurePay API return HTML
 ```php
+$api = $yuansfer->createSecurePay();
+
+...
+
 echo $response;
 ```
 
 ### 5.2. Others API return JSON, already decoded to array  
 ```php
+$api = $yuansfer->createSecurePayRefund();
+
+...
+
 var_dump(is_array($response)); // bool(true)
 
 if ($response['ret_code'] === '000100') {
