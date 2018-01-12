@@ -76,7 +76,7 @@ if ($response['ret_code'] === '000100') {
 }
 ```
 
-### 6. Exception when Send to API
+### 6. Exceptions when send
 ```php
 try {
     $response = $api->send();
