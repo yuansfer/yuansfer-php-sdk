@@ -14,6 +14,8 @@ Please see [examples](https://github.com/yuansfer/yuansfer-php-sdk/tree/master/e
 
 ### 1. Init
 ```php
+use Yuansfer\Yuansfer;
+
 $config = array(
     Yuansfer::MERCHANT_NO => 'The merchant NO.',
     Yuansfer::STORE_NO => 'The store NO.',
