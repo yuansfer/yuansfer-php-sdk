@@ -27,8 +27,8 @@ $api
     ->setVendor('alipay') // The payment channel, alipay, wechatpay, unionpay are supported yet.
     ->setTerminal('ONLINE') // ONLINE, WAP
     ->setReference('44444') //The unque ID of client’s system.
-    ->setIpnUrl('./SecurePayCallbackIpn.php') // The asynchronous callback method.
-    ->setCallbackUrl('./SecurePayCallback.php'); // The Synchronous callback method.
+    ->setIpnUrl('http://domain/example/callback_secure_pay_ipn.php') // The asynchronous callback method.
+    ->setCallbackUrl('http://domain/example/callback_secure_pay.php'); // The Synchronous callback method.
 
 try {
     // send to api get response
