@@ -43,7 +43,7 @@ $api
     ->setCallbackUrl('http://domain/example/callback_secure_pay.php'); // The Synchronous callback method.
 ```
 
-### 4.1. Send to API
+### 4.1. Send
 ```php
 $response = $api->send();
 ```
