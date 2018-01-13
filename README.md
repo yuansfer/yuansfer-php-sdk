@@ -63,7 +63,7 @@ $api = $yuansfer->createSecurePay();
 echo $response;
 ```
 
-### 5.2. Others API return JSON, already decoded to array  
+### 5.2. Other APIs return JSON, already decoded to array  
 ```php
 $api = $yuansfer->createSecurePayRefund();
 
@@ -76,7 +76,7 @@ if ($response['ret_code'] === '000100') {
 }
 ```
 
-### 6. Exceptions when send
+### 6. Exceptions when sending
 ```php
 try {
     $response = $api->send();
