@@ -45,12 +45,13 @@ if (!$yuansfer->verifyIPN()) {
 $order = Order::find($_POST['reference']);
 
 if ($_POST['status'] === 'success') {
-    // order success
+    // do something about order success
     $order->success();
 
+    // must output: "success", otherwise yuansfer will be considered a failure
     echo 'success';
 } else {
-    // order failed
+    // do something about order failed
     $order->failed();
 }
 
