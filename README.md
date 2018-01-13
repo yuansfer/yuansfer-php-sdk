@@ -81,6 +81,11 @@ if ($response['ret_code'] === '000100') {
 try {
     $response = $api->send();
 } catch (\Yuansfer\Exception\YuansferException $e) {
+    // required param is empty
+    if ($e instanceof \Yuansfer\Exception\RequiredEmptyException) {
+        $message = 'The param: ' . $e->getParam() . ' is empty, in API: ' . $e->getApi();
+    }
+
     // http connect error
     if ($e instanceof \Yuansfer\Exception\HttpClientException) {
         $message = $e->getMessage();
@@ -90,11 +95,6 @@ try {
     if ($e instanceof \Yuansfer\Exception\HttpErrorException) {
         /** @var \Httpful\Response http response */
         $response = $e->getResponse();
-    }
-
-    // required param is empty
-    if ($e instanceof \Yuansfer\Exception\RequiredEmptyException) {
-        $message = 'The param: ' . $e->getParam() . ' is empty, in API: ' . $e->getApi();
     }
 }
 ```
