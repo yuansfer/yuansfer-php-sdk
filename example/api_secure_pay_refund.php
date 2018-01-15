@@ -31,6 +31,7 @@ try {
     // response array struct:
     // array(
     //    'ret_code' => '000100',
+    //    'ret_msg' => 'refund success ',
     //    'result' => array(
     //        'status' => 'success',
     //        'reference' => '44444',
