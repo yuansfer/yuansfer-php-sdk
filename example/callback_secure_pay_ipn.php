@@ -25,13 +25,7 @@ class Order {
 }
 
 //init
-$config = array(
-    Yuansfer::MERCHANT_NO => 'The merchant NO.',
-    Yuansfer::STORE_NO => 'The store NO.',
-    Yuansfer::API_TOKEN => 'Yuansfer API token',
-    Yuansfer::TEST_API_TOKEN => 'Yuansfer API token for test mode',
-);
-
+$config = include __DIR__ . '/yuansfer_config.php';
 $yuansfer = new Yuansfer($config);
 
 if (!$yuansfer->verifyIPN()) {
