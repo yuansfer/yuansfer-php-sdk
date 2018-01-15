@@ -7,4 +7,4 @@ if (isset($_GET['status']) && $_GET['status'] === 'success') {
     echo 'Pay failed';
 }
 
-echo 'Debug: <br>', str_replace("\n", '<br>', print_r($_GET, true));
+echo '<br>Debug: <br>', print_r($_GET, true);
