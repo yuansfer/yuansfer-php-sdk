@@ -1,5 +1,11 @@
 # Yuansfer PHP SDK
 
+[![Latest Stable Version](https://poser.pugx.org/yuansfer/yuansfer-php-sdk/v/stable)](https://packagist.org/packages/yuansfer/yuansfer-php-sdk)
+[![Latest Unstable Version](https://poser.pugx.org/yuansfer/yuansfer-php-sdk/v/unstable)](https://packagist.org/packages/yuansfer/yuansfer-php-sdk)
+[![Total Downloads](https://poser.pugx.org/yuansfer/yuansfer-php-sdk/downloads)](https://packagist.org/packages/yuansfer/yuansfer-php-sdk)
+[![Monthly Downloads](https://poser.pugx.org/yuansfer/yuansfer-php-sdk/d/monthly)](https://packagist.org/packages/yuansfer/yuansfer-php-sdk)
+[![License](https://poser.pugx.org/yuansfer/yuansfer-php-sdk/license)](https://packagist.org/packages/yuansfer/yuansfer-php-sdk)
+
 [Yuansfer Online API](https://docs.yuansfer.com/)
 
 PHP >= 5.3
