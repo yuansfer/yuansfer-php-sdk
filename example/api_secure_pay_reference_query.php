@@ -20,7 +20,7 @@ $api->setReference('100787002'); // The unque ID of client’s system.
 try {
     // send to api get response
     // SecurePayReferenceQuery api return JSON
-    // JSON already decode to PHP array
+    // JSON already decoded as PHP array
     $array = $api->send();
 
     // response array struct:

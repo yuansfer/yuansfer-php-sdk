@@ -16,14 +16,14 @@ $api = $yuansfer->createExchangeRate();
 
 // set api parameters
 $api
-    ->setDate('20180111') // The date, yyyyMMdd
+    ->setDate(date('Ymd')) // The date, yyyyMMdd
     ->setCurrency('USD') // The currency, USD, CAD supported yet.
     ->setVendor('alipay'); // The payment channel, alipay, wechatpay, unionpay are supported yet.
 
 try {
     // send to api get response
     // ExchangeRate api return JSON
-    // JSON already decode to PHP array
+    // JSON already decoded as PHP array
     $array = $api->send();
 
     // response array struct:

@@ -23,7 +23,7 @@ $api
 try {
     // send to api get response
     // SecurePayRefund api return JSON
-    // JSON already decode to PHP array
+    // JSON already decoded as PHP array
     $array = $api->send();
 
     // response array struct:
