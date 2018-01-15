@@ -5,15 +5,17 @@ namespace Yuansfer\Api;
 use Httpful\Httpful;
 use Httpful\Mime;
 use Httpful\Request;
+use Httpful\Handlers\FormHandler;
 use Httpful\Handlers\JsonHandler;
 use Httpful\Exception\ConnectionErrorException;
+
 use Yuansfer\ApiInterface;
+use Yuansfer\Yuansfer;
+use Yuansfer\Util\Sign;
 use Yuansfer\Exception\HttpErrorException;
 use Yuansfer\Exception\RequiredEmptyException;
 use Yuansfer\Exception\YuansferException;
 use Yuansfer\Exception\HttpClientException;
-use Yuansfer\Util\Sign;
-use Yuansfer\Yuansfer;
 
 /**
  * Class AbstractApi
@@ -44,6 +46,10 @@ abstract class AbstractApi implements ApiInterface
 
         if (!Httpful::hasParserRegistered(Mime::JSON)) {
             Httpful::register(Mime::JSON, new JsonHandler(array('decode_as_array' => true)));
+        }
+
+        if (!Httpful::hasParserRegistered(Mime::FORM)) {
+            Httpful::register(Mime::FORM, new FormHandler());
         }
     }
 
@@ -125,7 +131,7 @@ abstract class AbstractApi implements ApiInterface
         $params = Sign::append($this->params, $this->yuansfer->getApiToken());
 
         try {
-            $response = Request::post($url, \http_build_query($params))
+            $response = Request::post($url, $params, 'form')
                 ->expects($this->responseType())
                 ->send();
 
