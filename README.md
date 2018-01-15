@@ -11,7 +11,7 @@ PHP >= 5.3
 
 ## Installation
 
-``composer require "yuansfer/yuansfer-php-sdk:dev-master"``
+``composer require yuansfer/yuansfer-php-sdk:~1.0``
 
 ## Usage
 
