@@ -16,13 +16,19 @@ $api = $yuansfer->createSecurePay();
 
 // set api parameters
 $api
-    ->setAmount(9.9) //The amount of the transaction.
+    ->setAmount(0.01) //The amount of the transaction.
     ->setCurrency('USD') // The currency, USD, CAD supported yet.
     ->setVendor('alipay') // The payment channel, alipay, wechatpay, unionpay are supported yet.
     ->setTerminal('ONLINE') // ONLINE, WAP
-    ->setReference('44444') //The unque ID of client’s system.
-    ->setIpnUrl('http://domain/example/callback_secure_pay_ipn.php') // The asynchronous callback method.
-    ->setCallbackUrl('http://domain/example/callback_secure_pay.php'); // The Synchronous callback method.
+    ->setReference(str_replace('.', '_', uniqid('test_', true))) //The unque ID of client’s system.
+    ->setIpnUrl('https://domain/example/callback_secure_pay_ipn.php') // The asynchronous callback method. https only
+    ->setCallbackUrl('https://domain/example/callback_secure_pay.php' . // The Synchronous callback method.
+        '?yuansferId={yuansferId}&status={status}&amount={amount}&reference={reference}&note={note}'); // query name can change, like: id={yuansferId}&num={amount}
+
+//optional parameters
+$api->setDescription('description info') // it will be displayed on the card charge
+    ->setNote('note info')
+    ->setTimeout(120);  // units are minutes, default is 120
 
 try {
     // send to api get response
