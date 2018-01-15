@@ -7,11 +7,50 @@
 
 [Yuansfer Online API](https://docs.yuansfer.com/)
 
-PHP >= 5.3
+
+## Requirements
+
+- PHP >= 5.3
+- CURL extension
+
 
 ## Installation
 
-``composer require yuansfer/yuansfer-php-sdk:~1.0``
+### With Composer (recommended)
+
+1. Install composer:
+    
+    ```sh
+    $ curl -sS https://getcomposer.org/installer | php
+    ```
+    
+    More info about installation on [Linux / Unix / OSX](https://getcomposer.org/doc/00-intro.md#installation-linux-unix-osx)
+    and [Windows](https://getcomposer.org/doc/00-intro.md#installation-windows).
+    
+2. Run the Composer command to install the latest version of SDK:
+
+    ```sh
+        php composer.phar require yuansfer/yuansfer-php-sdk
+    ```
+
+3. Require Composer's autoloader in your PHP script (assuming it is in the same directory where you installed Composer):
+      
+      ```php
+      require('vendor/autoload.php');
+      ```
+### PHAR with bundled dependencies
+
+**This is not recommended! Use [Composer](http://getcomposer.org) as modern way of working with PHP packages.**
+
+1. Download [PHAR file](https://github.com/yuansfer/yuansfer-php-sdk/releases/latest)
+
+2. Require files:
+  
+    ```php
+    require('path-to-sdk/yuansfer-php-sdk.phar');
+    ```
+
+Please keep in mind that bundled dependencies may interfere with your other dependencies.
 
 ## Usage
 
