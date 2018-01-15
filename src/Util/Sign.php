@@ -10,6 +10,7 @@ namespace Yuansfer\Util;
  */
 class Sign
 {
+    const KEY = 'verifySign';
 
     /**
      * @param array $params
@@ -18,7 +19,7 @@ class Sign
      */
     protected static function generate(&$params, $token)
     {
-        unset($params['verifySign']);
+        unset($params[static::KEY]);
 
         \ksort($params, SORT_STRING);
         $str = '';
@@ -31,12 +32,13 @@ class Sign
 
     /**
      * @param array $params
+     * @param string $token
      *
      * @return array
      */
     public static function append($params, $token)
     {
-        $params['verifySign'] = static::generate($params, $token);
+        $params[static::KEY] = static::generate($params, $token);
 
         return $params;
     }
@@ -48,11 +50,11 @@ class Sign
      */
     public static function verify($params, $token)
     {
-        if (!isset($params['verifySign'])) {
+        if (!isset($params[static::KEY])) {
             return false;
         }
 
-        $verifySign = $params['verifySign'];
+        $verifySign = $params[static::KEY];
 
         return $verifySign === static::generate($params, $token);
     }
