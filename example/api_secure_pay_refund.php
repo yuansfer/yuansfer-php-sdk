@@ -16,9 +16,11 @@ $api = $yuansfer->createSecurePayRefund();
 
 // set api parameters
 $api
-    ->setAmount(9.9) // The amount you need to refund.
-    ->setReference('44444') // The unque ID of client’s system.
-    ->setStoreManager('account', 'password'); // When the merchant is set need storeManager validate
+    ->setAmount(0.01) // The amount you need to refund.
+    ->setReference('444444'); // The unque ID of client’s system.
+
+// When the merchant is set need storeManager validate
+$api->setStoreManager('account', 'password');
 
 try {
     // send to api get response

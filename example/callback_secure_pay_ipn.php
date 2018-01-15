@@ -43,6 +43,7 @@ class SampleOrder {
 //init
 $config = include __DIR__ . '/yuansfer_config.php';
 $yuansfer = new Yuansfer($config);
+$yuansfer->setTestMode();
 
 if (!$yuansfer->verifyIPN()) {
     // verifySign not verified
