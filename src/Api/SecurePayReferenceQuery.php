@@ -2,6 +2,8 @@
 
 namespace Yuansfer\Api;
 
+use Yuansfer\Exception\InvalidParamException;
+
 /**
  * Class SecurePayReferenceQuery
  *
@@ -29,6 +31,10 @@ class SecurePayReferenceQuery extends AbstractApi
      */
     public function setReference($reference)
     {
+        if (!\preg_match('/^[a-zA-Z0-9_-]+$/', $reference)) {
+            throw new InvalidParamException('The param `reference` is invalid in securepay-reference-query');
+        }
+
         $this->params['reference'] = $reference;
 
         return $this;

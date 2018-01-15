@@ -132,6 +132,10 @@ class SecurePay extends AbstractApi
      */
     public function setReference($reference)
     {
+        if (!\preg_match('/^[a-zA-Z0-9_-]+$/', $reference)) {
+            throw new InvalidParamException('The param `reference` is invalid in securepay');
+        }
+
         $this->params['reference'] = $reference;
 
         return $this;

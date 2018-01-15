@@ -35,7 +35,7 @@ class SecurePayRefund extends AbstractApi
     public function setAmount($amount)
     {
         if (!\is_numeric($amount)) {
-            throw new InvalidParamException('The param `amount` is invalid in securepay');
+            throw new InvalidParamException('The param `amount` is invalid in securepayRefund');
         }
 
         $this->params['amount'] = $amount;
@@ -50,6 +50,10 @@ class SecurePayRefund extends AbstractApi
      */
     public function setReference($reference)
     {
+        if (!\preg_match('/^[a-zA-Z0-9_-]+$/', $reference)) {
+            throw new InvalidParamException('The param `reference` is invalid in securepayRefund');
+        }
+
         $this->params['reference'] = $reference;
 
         return $this;
