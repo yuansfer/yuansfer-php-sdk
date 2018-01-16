@@ -98,7 +98,7 @@ $yuansfer->setTestMode();
 $response = $api->send();
 ```
 
-### 5.1. SecurePay API return HTML
+### 5.1. SecurePay API return HTML, output directly
 ```php
 $api = $yuansfer->createSecurePay();
 
@@ -107,7 +107,7 @@ $api = $yuansfer->createSecurePay();
 echo $response;
 ```
 
-### 5.2. Other APIs return JSON, already decoded to array  
+### 5.2. Other APIs return JSON, already decoded as array  
 ```php
 $api = $yuansfer->createSecurePayRefund();
 
