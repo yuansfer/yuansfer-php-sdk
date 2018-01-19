@@ -30,7 +30,7 @@
 2. Run the Composer command to install the latest version of SDK:
 
     ```sh
-        php composer.phar require yuansfer/yuansfer-php-sdk
+    php composer.phar require yuansfer/yuansfer-php-sdk
     ```
 
 3. Require Composer's autoloader in your PHP script (assuming it is in the same directory where you installed Composer):
