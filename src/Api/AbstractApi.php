@@ -162,12 +162,4 @@ abstract class AbstractApi implements ApiInterface
             throw new HttpClientException($e->getMessage(), $e->getCode(), $e);
         }
     }
-
-    /**
-     * @param array|string $key
-     */
-    protected function checkRequired($key)
-    {
-
-    }
 }
