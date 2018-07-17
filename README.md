@@ -80,7 +80,7 @@ $api = $yuansfer->createSecurePay();
 $api
     ->setAmount(9.9) //The amount of the transaction.
     ->setCurrency('USD') // The currency, USD, CAD supported yet.
-    ->setVendor('alipay') // The payment channel, alipay, wechatpay, unionpay are supported yet.
+    ->setVendor('alipay') // The payment channel, alipay, wechatpay, unionpay, enterprisepay are supported yet.
     ->setTerminal('ONLINE') // ONLINE, WAP
     ->setReference('44444') //The unque ID of client's system.
     ->setIpnUrl('http://domain/example/callback_secure_pay_ipn.php') // The asynchronous callback method.
@@ -135,7 +135,7 @@ try {
         $message = $e->getMessage();
     }
 
-    // http response status code < 200 or >= 300
+    // http response status code < 200 or >= 300, 301 and 302 will auto redirect
     if ($e instanceof \Yuansfer\Exception\HttpErrorException) {
         /** @var \Httpful\Response http response */
         $response = $e->getResponse();

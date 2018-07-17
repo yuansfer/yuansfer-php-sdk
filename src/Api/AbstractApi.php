@@ -123,7 +123,24 @@ abstract class AbstractApi implements ApiInterface
         }
 
         foreach ($this->getRequired() as $k) {
-            if (!isset($this->params[$k]) || $this->params[$k] === '') {
+            $found = false;
+            if (\is_array($k)) {
+                foreach ($k as $v) {
+                    if (!isset($this->params[$v])) {
+                        continue;
+                    }
+
+                    if (!$found && $this->params[$v] !== '') {
+                        $found = true;
+                    } else {
+                        unset($this->params[$v]);
+                    }
+                }
+            } else {
+                $found = isset($this->params[$k]) && $this->params[$k] !== '';
+            }
+
+            if (!$found) {
                 throw new RequiredEmptyException($path, $k);
             }
         }
@@ -144,5 +161,13 @@ abstract class AbstractApi implements ApiInterface
         } catch (ConnectionErrorException $e) {
             throw new HttpClientException($e->getMessage(), $e->getCode(), $e);
         }
+    }
+
+    /**
+     * @param array|string $key
+     */
+    protected function checkRequired($key)
+    {
+
     }
 }
