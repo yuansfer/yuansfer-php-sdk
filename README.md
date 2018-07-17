@@ -30,7 +30,7 @@
 2. Run the Composer command to install the latest version of SDK:
 
     ```sh
-        php composer.phar require yuansfer/yuansfer-php-sdk
+    php composer.phar require yuansfer/yuansfer-php-sdk
     ```
 
 3. Require Composer's autoloader in your PHP script (assuming it is in the same directory where you installed Composer):
@@ -80,7 +80,7 @@ $api = $yuansfer->createSecurePay();
 $api
     ->setAmount(9.9) //The amount of the transaction.
     ->setCurrency('USD') // The currency, USD, CAD supported yet.
-    ->setVendor('alipay') // The payment channel, alipay, wechatpay, unionpay are supported yet.
+    ->setVendor('alipay') // The payment channel, alipay, wechatpay, unionpay, enterprisepay are supported yet.
     ->setTerminal('ONLINE') // ONLINE, WAP
     ->setReference('44444') //The unque ID of client's system.
     ->setIpnUrl('http://domain/example/callback_secure_pay_ipn.php') // The asynchronous callback method.
@@ -98,7 +98,7 @@ $yuansfer->setTestMode();
 $response = $api->send();
 ```
 
-### 5.1. SecurePay API return HTML
+### 5.1. SecurePay API return HTML, output directly
 ```php
 $api = $yuansfer->createSecurePay();
 
@@ -107,7 +107,7 @@ $api = $yuansfer->createSecurePay();
 echo $response;
 ```
 
-### 5.2. Other APIs return JSON, already decoded to array  
+### 5.2. Other APIs return JSON, already decoded as array  
 ```php
 $api = $yuansfer->createSecurePayRefund();
 
@@ -135,7 +135,7 @@ try {
         $message = $e->getMessage();
     }
 
-    // http response status code < 200 or >= 300
+    // http response status code < 200 or >= 300, 301 and 302 will auto redirect
     if ($e instanceof \Yuansfer\Exception\HttpErrorException) {
         /** @var \Httpful\Response http response */
         $response = $e->getResponse();

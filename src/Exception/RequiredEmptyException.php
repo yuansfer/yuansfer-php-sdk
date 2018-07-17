@@ -14,6 +14,10 @@ class RequiredEmptyException extends \InvalidArgumentException implements Yuansf
         $this->api = $api;
         $this->param = $param;
 
+        if (\is_array($param)) {
+            $param = \implode('` / `', $param);
+        }
+
         parent::__construct("The param `$param` is required in $api");
     }
 

@@ -2,7 +2,9 @@
 
 namespace Yuansfer\Api;
 
+use Yuansfer\Exception\HttpErrorException;
 use Yuansfer\Exception\InvalidParamException;
+use Yuansfer\Exception\YuansferException;
 
 /**
  * Class Pay
@@ -15,7 +17,7 @@ class SecurePay extends AbstractApi
     public function __construct($yuansfer)
     {
         $this->addRequired(array(
-            'amount',
+            array('amount', 'rmbAmount'),
             'currency',
             'vendor',
             'ipnUrl',
@@ -49,6 +51,24 @@ class SecurePay extends AbstractApi
         }
 
         $this->params['amount'] = $amount;
+        unset($this->params['rmbAmount']);
+
+        return $this;
+    }
+
+    /**
+     * @param number $amount
+     *
+     * @return $this
+     */
+    public function setRmbAmount($amount)
+    {
+        if (!\is_numeric($amount)) {
+            throw new InvalidParamException('The param `rmbAmount` is invalid in securepay');
+        }
+
+        $this->params['rmbAmount'] = $amount;
+        unset($this->params['amount']);
 
         return $this;
     }
@@ -196,13 +216,35 @@ class SecurePay extends AbstractApi
      */
     public function setVendor($vendor)
     {
-        if (!\in_array($vendor, array('alipay', 'wechatpay', 'unionpay'), true)) {
+        if (!\in_array($vendor, array('alipay', 'wechatpay', 'unionpay', 'enterprisepay'), true)) {
             throw new InvalidParamException('The param `vender` is invalid in securepay');
         }
 
         $this->params['vendor'] = $vendor;
 
         return $this;
+    }
+
+    /**
+     * @return string|array
+     *
+     * @throws YuansferException
+     */
+    public function send()
+    {
+        try {
+            return parent::send();
+        } catch (HttpErrorException $e) {
+            /** @var \Httpful\Response http response */
+            $response = $e->getResponse();
+
+            if ($response->code === 301 || $response->code === 302) {
+                header('Location: ' . $response->headers['location']);
+                exit;
+            }
+
+            throw $e;
+        }
     }
 
 }
