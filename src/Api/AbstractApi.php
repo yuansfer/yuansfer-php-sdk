@@ -59,7 +59,7 @@ abstract class AbstractApi implements ApiInterface
     protected function addRequired($fields)
     {
         static::$required = \array_unique(
-            \array_merge(static::$required, (array) $fields)
+            \array_merge(static::$required, (array) $fields), \SORT_REGULAR
         );
     }
 
