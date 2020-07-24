@@ -5,22 +5,19 @@ namespace Yuansfer\Api;
 use Yuansfer\Exception\InvalidParamException;
 
 /**
- * Class SecurePay
+ * Class Prepay
  *
  * @package Yuansfer\Api
  * @author  Feng Hao <flyinghail@msn.com>
- * @see     https://docs.yuansfer.com/#secure_pay
+ * @see     https://docs.yuansfer.com/#prepay
  *
- * @method $this setCallbackUrl(string $callbackUrl)
  * @method $this setDescription(string $description)
  * @method $this setIpnUrl(string $ipnUrl)
  * @method $this setNote(string $note)
  * @method $this setReference(string $reference)
- * @method $this setPaymentCount(string $paymentCount)
- * @method $this setFrequency(string $frequency)
- * @method $this setCustomerNo(string $customerNo)
+ * @method $this setOpenid(string $openid)
  */
-class SecurePay extends AbstractApi
+class Prepay extends AbstractApi
 {
     public function __construct($yuansfer)
     {
@@ -35,14 +32,11 @@ class SecurePay extends AbstractApi
         ));
 
         $this->addCallabe(array(
-            'callbackUrl',
             'description',
             'ipnUrl',
             'note',
             'reference',
-            'paymentCount',
-            'frequency',
-            'customerNo',
+            'openid',
         ));
 
         parent::__construct($yuansfer);
@@ -50,7 +44,7 @@ class SecurePay extends AbstractApi
 
     protected function getPath()
     {
-        return 'online:secure-pay';
+        return 'micropay:prepay';
     }
 
     /**
@@ -109,8 +103,8 @@ class SecurePay extends AbstractApi
     {
         $terminal = \strtoupper($terminal);
 
-        if (!\in_array($terminal, array('ONLINE', 'WAP'), true)) {
-            throw new InvalidParamException('The param `terminal` is invalid in securepay');
+        if (!\in_array($terminal, array('MINIPROGRAM', 'APP'), true)) {
+            throw new InvalidParamException('The param `terminal` is invalid in prepay');
         }
 
         $this->params['terminal'] = $terminal;
@@ -142,39 +136,11 @@ class SecurePay extends AbstractApi
      */
     public function setVendor($vendor)
     {
-        if (!\in_array($vendor, array('alipay', 'wechatpay', 'unionpay', 'creditcard'), true)) {
-            throw new InvalidParamException('The param `vender` is invalid in securepay');
+        if (!\in_array($vendor, array('alipay', 'wechatpay'), true)) {
+            throw new InvalidParamException('The param `vender` is invalid in prepay');
         }
 
         $this->params['vendor'] = $vendor;
-
-        return $this;
-    }
-
-    /**
-     * @param array $goodsInfo
-     *
-     * @return $this
-     */
-    public function setGoodsInfo($goodsInfo)
-    {
-        $this->params['goodsInfo'] = \json_encode($goodsInfo);
-
-        return $this;
-    }
-
-    /**
-     * @param string $creditType
-     *
-     * @return $this
-     */
-    public function setCreditType($creditType)
-    {
-        if (!\in_array($creditType, array('normal', 'recurring'), true)) {
-            throw new InvalidParamException('The param `creditType` is invalid in securepay');
-        }
-
-        $this->params['creditType'] = $creditType;
 
         return $this;
     }

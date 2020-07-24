@@ -2,6 +2,7 @@
 
 namespace Yuansfer;
 
+use Yuansfer\Api\WithdrawalList;
 use Yuansfer\Exception\BadMethodCallException;
 use Yuansfer\Exception\InvalidArgumentException;
 use Yuansfer\Util\Sign;
@@ -13,10 +14,33 @@ use Yuansfer\Util\Sign;
  * @package Yuansfer
  * @author  Feng Hao <flyinghail@msn.com>
  *
+ * Checkout
  * @method Api\SecurePay createSecurePay()
- * @method Api\ExchangeRate createExchangeRate()
- * @method Api\SecurePayRefund createSecurePayRefund()
- * @method Api\SecurePayReferenceQuery createSecurePayReferenceQuery()
+ * @method Api\UpdateRecurring createUpdateRecurring()
+ *
+ * Yuansfer Integrated Payment
+ * @method Api\Add createAdd()
+ * @method Api\Pay createPay()
+ * @method Api\TransQrcode createTransQrcode()
+ * @method Api\CashierAdd createCashierAdd()
+ *
+ * Point of Sale Integration
+ * @method Api\Prepay createPrepay()
+ * @method Api\ExpressPay createExpressPay()
+ *
+ * Data Search
+ * @method Api\Refund createRefund()
+ * @method Api\TranQuery createTranQuery()
+ * @method Api\Reverse createReverse()
+ * @method Api\TransList createTransList()
+ * @method Api\SettleList createSettleList()
+ * @method Api\WithdrawalList createWithdrawalList()
+ * @method Api\DataStatus createDataStatus()
+ *
+ * Customer
+ * @method Api\CustomerAdd createCustomerAdd()
+ * @method Api\CustomerQuery createCustomerQuery()
+ * @method Api\CustomerUpdate createCustomerUpdate()
  */
 class Yuansfer
 {
@@ -30,8 +54,8 @@ class Yuansfer
         PRODUCTION_MODE = 'production',
         TEST_MODE = 'test';
 
-    const PRODUCTION_URL = 'https://mapi.yuansfer.com/appTransaction',
-        TEST_URL = 'https://mapi.yuansfer.yunkeguan.com/appTransaction';
+    const PRODUCTION_URL = 'https://mapi.yuansfer.com',
+        TEST_URL = 'https://mapi.yuansfer.yunkeguan.com';
 
     /**
      * @var string The merchant NO.
@@ -63,9 +87,6 @@ class Yuansfer
      */
     private $mode;
 
-    /**
-     * @param array $config
-     */
     /**
      * Config constructor.
      *
@@ -233,7 +254,7 @@ class Yuansfer
         if (\strpos($name, 'create') === 0) {
             $class = __NAMESPACE__ . '\\Api\\' . \substr($name, 6);
             if (!\class_exists($class)) {
-                throw new InvalidArgumentException('API not defined');
+                throw new BadMethodCallException("Method `$name` not exists");
             }
 
             $api = new $class($this);
