@@ -10,6 +10,8 @@ use Httpful\Handlers\JsonHandler;
 use Httpful\Exception\ConnectionErrorException;
 
 use Yuansfer\ApiInterface;
+use Yuansfer\Exception\BadMethodCallException;
+use Yuansfer\Exception\InvalidArgumentException;
 use Yuansfer\Yuansfer;
 use Yuansfer\Util\Sign;
 use Yuansfer\Exception\HttpErrorException;
@@ -22,6 +24,9 @@ use Yuansfer\Exception\HttpClientException;
  *
  * @package Yuansfer\Api
  * @author  Feng Hao <flyinghail@msn.com>
+ *
+ * @method $this setMerchantNo(string $merchantNo)
+ * @method $this setStoreNo(string $storeNo)
  */
 abstract class AbstractApi implements ApiInterface
 {
@@ -35,7 +40,12 @@ abstract class AbstractApi implements ApiInterface
      */
     protected $params = array();
 
-    protected static $required = array(
+    protected $required = array(
+        'merchantNo',
+        'storeNo',
+    );
+
+    protected $callable = array(
         'merchantNo',
         'storeNo',
     );
@@ -58,8 +68,18 @@ abstract class AbstractApi implements ApiInterface
      */
     protected function addRequired($fields)
     {
-        static::$required = \array_unique(
-            \array_merge(static::$required, (array) $fields), \SORT_REGULAR
+        $this->required = \array_unique(
+            \array_merge($this->required, (array) $fields), \SORT_REGULAR
+        );
+    }
+
+    /**
+     * @param array|string $fields
+     */
+    protected function addCallabe($fields)
+    {
+        $this->callable = \array_unique(
+            \array_merge($this->callable, (array) $fields), \SORT_REGULAR
         );
     }
 
@@ -73,7 +93,7 @@ abstract class AbstractApi implements ApiInterface
      */
     protected function getRequired()
     {
-        return static::$required;
+        return $this->required;
     }
 
     /**
@@ -85,23 +105,28 @@ abstract class AbstractApi implements ApiInterface
     }
 
     /**
-     * @inheritdoc
+     * @param string $name
+     * @param array  $arguments
+     *
+     * @return $this
      */
-    public function setMerchantNo($merchantNo)
+    public function __call($name, $arguments)
     {
-        $this->params['merchantNo'] = $merchantNo;
+        if (\strpos($name, 'set') === 0) {
+            if (empty($arguments)) {
+                throw new InvalidArgumentException('Arguments is empty');
+            }
 
-        return $this;
-    }
+            $key = \lcfirst(\substr($name, 3));
 
-    /**
-     * @inheritdoc
-     */
-    public function setStoreNo($storeNo)
-    {
-        $this->params['storeNo'] = $storeNo;
+            if (\in_array($key, $this->callable, true)) {
+                $this->params[$key] = $arguments[0];
 
-        return $this;
+                return $this;
+            }
+        }
+
+        throw new BadMethodCallException("Method `$name` not exists");
     }
 
     /**
@@ -111,8 +136,12 @@ abstract class AbstractApi implements ApiInterface
      */
     public function send()
     {
+        $base = '';
         $path = $this->getPath();
-        $url = $this->yuansfer->getUrl() . '/' . static::VERSION . '/' . $path;
+        if (\strpos($path, ':') > 0) {
+            list($base, $path) = \explode(':', $path);
+        }
+        $url = $this->yuansfer->getUrl() . '/' . ($base ? $base . '/' : '') . static::VERSION . '/' . $path;
 
         if (!isset($this->params['merchantNo'])) {
             $this->params['merchantNo'] = $this->yuansfer->getMerchantNo();

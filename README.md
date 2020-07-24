@@ -19,7 +19,7 @@
 ### With Composer (recommended)
 
 1. Install composer:
-    
+   
     ```sh
     $ curl -sS https://getcomposer.org/installer | php
     ```
@@ -34,7 +34,7 @@
     ```
 
 3. Require Composer's autoloader in your PHP script (assuming it is in the same directory where you installed Composer):
-      
+   
       ```php
       require('vendor/autoload.php');
       ```
@@ -98,25 +98,10 @@ $yuansfer->setTestMode();
 $response = $api->send();
 ```
 
-### 5.1. SecurePay API return HTML, output directly
+### 5. API return JSON, already decoded as array  
 ```php
-$api = $yuansfer->createSecurePay();
-
-...
-
-echo $response;
-```
-
-### 5.2. Other APIs return JSON, already decoded as array  
-```php
-$api = $yuansfer->createSecurePayRefund();
-
-...
-
-var_dump(is_array($response)); // bool(true)
-
 if ($response['ret_code'] === '000100') {
-    echo 'success';
+	header('Location: ' . $response['result']['cashierUrl']);
 }
 ```
 
@@ -142,3 +127,44 @@ try {
     }
 }
 ```
+
+
+
+## API Documents
+
+[Official Documents](https://docs.yuansfer.com/)
+
+### Checkout API
+
+| API                                                          | Call                                 | Description                                                  |
+| ------------------------------------------------------------ | ------------------------------------ | ------------------------------------------------------------ |
+| [secure-pay()](https://docs.yuansfer.com/#secure_pay)        | `$yuansfer->createSecurePay()`       | Use the `secure-pay()` API to pay for an order.              |
+| [update-recurring()](https://docs.yuansfer.com/#update_recurring) | `$yuansfer->createUpdateRecurring()` | You can use the `update-recurring()` API modify automatic deduction rules. |
+
+### Integrated Payment(YIP) API
+
+| API                                                          | Call                             | Description                                                  |
+| ------------------------------------------------------------ | -------------------------------- | ------------------------------------------------------------ |
+| [add()](https://docs.yuansfer.com/#add)                      | `$yuansfer->createAdd()`         | Use the `add()` API to initiate a **Barcode/QR Code Payment** request and create a transaction order. |
+| [pay()](https://docs.yuansfer.com/#pay)                      | `$yuansfer->createPay()`         | Use the `pay()` API to  place an order in the **Barcode/QR Code Payment**. |
+| [create-trans-qrcode()](https://docs.yuansfer.com/#create_trans_qrcode) | `$yuansfer->createTransQrcode()` | Use the `create-trans-qrcode()` API  to create a transaction and get a QR code for customers to scan to pay in the **Transaction QR Code Payment** process. Customers scan this QR code using the Alipay app  or WeChat Pay app to checkout. |
+| [cashier-add()](https://docs.yuansfer.com/#cashier_add)      | `$yuansfer->createCashierAdd()`  | Use the `cashier-add()`  API is for sending cash register transaction requests to the Yuansfer  Server which adds the transaction to the transaction collection. |
+
+### Point of Sale Integration API
+
+| API                                                     | Call                            | Description                                       |
+| ------------------------------------------------------- | ------------------------------- | ------------------------------------------------- |
+| [prepay()](https://docs.yuansfer.com/#prepay)           | `$yuansfer->createPrepay()`     | Use the `prepay()` API to process mobile payment. |
+| [express-pay()](https://docs.yuansfer.com/#express_pay) | `$yuansfer->createExpressPay()` |                                                   |
+
+### Data Search API
+
+| API                                                          | Call                                | Description                                                  |
+| ------------------------------------------------------------ | ----------------------------------- | ------------------------------------------------------------ |
+| [refund()](https://docs.yuansfer.com/#refund)                | `$yuansfer->createRefund()`         | Use the `refund()` API to refund payments.                   |
+| [tran-query()](https://docs.yuansfer.com/#tran_query)        | `$yuansfer->createTranQuery()`      | Use the `tran-query()` API to get transaction details by ID of a transaction in the merchant’s system. |
+| [reverse()](https://docs.yuansfer.com/#reverse)              | `$yuansfer->createReverse()`        | Use the `reverse()` API to cancel a PAY API transaction.     |
+| [trans-list()](https://docs.yuansfer.com/#trans_list)        | `$yuansfer->createTransList()`      | Use the `trans-list()` API to get all transaction details for a given time period. |
+| [settle-list()](https://docs.yuansfer.com/#settle_list)      | `$yuansfer->createSettleList()`     | Use the `settle-list()` API to get all settlement details for a given time period. |
+| [withdrawal-list()](https://docs.yuansfer.com/#withdrawal_list) | `$yuansfer->createWithdrawalList()` | Use the `withdrawal-list()` API to get all withdrawal details for a given time period. |
+| [data-status()](https://docs.yuansfer.com/#data_status)      | `$yuansfer->createDataStatus()`     | Use the `data-status()` API to get the settlement status for a given date. |

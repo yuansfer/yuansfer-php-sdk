@@ -1,4 +1,7 @@
 <?php
+/**
+ * @see https://docs.yuansfer.com/#refund
+ */
 require dirname(__DIR__) . '/vendor/autoload.php';
 
 use Yuansfer\Yuansfer;
@@ -12,25 +15,19 @@ $yuansfer = new Yuansfer($config);
 $yuansfer->setTestMode();
 
 // create api
-$api = $yuansfer->createExchangeRate();
+$api = $yuansfer->createSecurePayRefund();
 
 // set api parameters
 $api
-    ->setDate(date('Ymd')) // The date, yyyyMMdd
-    ->setCurrency('USD') // The currency, USD, CAD supported yet.
-    ->setVendor('alipay'); // The payment channel, alipay, wechatpay, unionpay are supported yet.
+    ->setAmount(0.01) // The amount you need to refund.
+    ->setReference('444444'); // The unque ID of client’s system.
 
 try {
     // send to api get response
-    // ExchangeRate api return JSON
+    // SecurePayRefund api return JSON
     // JSON already decoded as PHP array
     $array = $api->send();
 
-    // response array struct:
-    // array(
-    //    'ret_code' => '000100',
-    //    'exchangerate' => '6.594300',
-    // )
     var_dump($array);
 } catch (YuansferException $e) {
     // required param is empty

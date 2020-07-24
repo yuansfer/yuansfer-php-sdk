@@ -1,4 +1,7 @@
 <?php
+/**
+ * @see https://docs.yuansfer.com/#secure_pay
+ */
 require dirname(__DIR__) . '/vendor/autoload.php';
 
 use Yuansfer\Yuansfer;
@@ -32,8 +35,13 @@ $api->setDescription('description info') // it will be displayed on the card cha
 
 try {
     // send to api get response
-    // SecurePay api return html
-    echo $api->send();
+    // SecurePay api return JSON
+    // JSON already decoded as PHP array
+    $response = $api->send();
+
+    if ($response['ret_code'] === '000100') {
+        header('Location: ' . $response['result']['cashierUrl']);
+    }
 } catch (YuansferException $e) {
     // required param is empty
     if ($e instanceof \Yuansfer\Exception\RequiredEmptyException) {
