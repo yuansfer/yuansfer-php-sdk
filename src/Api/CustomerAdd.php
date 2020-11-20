@@ -7,7 +7,7 @@ namespace Yuansfer\Api;
  * Class CustomerAdd
  *
  * @package Yuansfer\Api
- * @author  Feng Hao <flyinghail@msn.com>
+ * @author  FENG Hao <flyinghail@msn.com>
  *
  * @method $this setFirstName(string $firstName)
  * @method $this setLastName(string $lastName)
@@ -60,6 +60,6 @@ class CustomerAdd extends AbstractApi
 
     protected function getPath()
     {
-        return 'creditpay:customer/add';
+        return 'creditpay/v2/customer/add';
     }
 }

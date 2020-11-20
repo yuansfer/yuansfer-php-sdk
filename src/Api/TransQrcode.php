@@ -9,8 +9,8 @@ use Yuansfer\Exception\InvalidParamException;
  * Class TransQrcode
  *
  * @package Yuansfer\Api
- * @author  Feng Hao <flyinghail@msn.com>
- * @see     https://docs.yuansfer.com/#create_trans_qrcode
+ * @author  FENG Hao <flyinghail@msn.com>
+ * @see     https://docs.yuansfer.com/api-reference-v3/payments/in-store-payment/create-qrcode
  *
  * @method $this setStoreAdminNo(string $storeAdminNo)
  * @method $this setIpnUrl(string $ipnUrl)
@@ -22,6 +22,7 @@ class TransQrcode extends AbstractApi
         $this->addRequired(array(
             array('transactionNo', 'reference'),
             'currency',
+            'settleCurrency',
             'vendor',
             'amount',
         ));
@@ -36,7 +37,7 @@ class TransQrcode extends AbstractApi
 
     protected function getPath()
     {
-        return 'app-instore:create-trans-qrcode';
+        return 'app-instore/' . self::VERSION . '/create-trans-qrcode';
     }
 
 
@@ -64,6 +65,18 @@ class TransQrcode extends AbstractApi
     public function setCurrency($currency)
     {
         $this->params['currency'] = \strtoupper($currency);
+
+        return $this;
+    }
+
+    /**
+     * @param string $currency
+     *
+     * @return $this
+     */
+    public function setSettleCurrency($currency)
+    {
+        $this->params['settleCurrency'] = \strtoupper($currency);
 
         return $this;
     }

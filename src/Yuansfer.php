@@ -12,26 +12,28 @@ use Yuansfer\Util\Sign;
  * Class Yuansfer
  *
  * @package Yuansfer
- * @author  Feng Hao <flyinghail@msn.com>
+ * @author  FENG Hao <flyinghail@msn.com>
  *
  * Checkout
  * @method Api\SecurePay createSecurePay()
- * @method Api\UpdateRecurring createUpdateRecurring()
  *
  * Yuansfer Integrated Payment
- * @method Api\Add createAdd()
- * @method Api\Pay createPay()
- * @method Api\TransQrcode createTransQrcode()
- * @method Api\CashierAdd createCashierAdd()
+ * @method Api\Prepay createPrepay()
  *
  * Point of Sale Integration
- * @method Api\Prepay createPrepay()
- * @method Api\ExpressPay createExpressPay()
+ * * Scan QR Code
+ * @method Api\Add createAdd()
+ * @method Api\Pay createPay()
+ * * Create QR Code
+ * @method Api\TransQrcode createTransQrcode()
  *
- * Data Search
+ *
+ * Transaction Revert
  * @method Api\Refund createRefund()
+ * @method Api\Cancel createCancel()
+ *
+ * Transaction Data Search
  * @method Api\TranQuery createTranQuery()
- * @method Api\Reverse createReverse()
  * @method Api\TransList createTransList()
  * @method Api\SettleList createSettleList()
  * @method Api\WithdrawalList createWithdrawalList()

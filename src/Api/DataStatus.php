@@ -2,15 +2,14 @@
 
 namespace Yuansfer\Api;
 
-
 use Yuansfer\Exception\InvalidParamException;
 
 /**
  * Class DataStatus
  *
  * @package Yuansfer\Api
- * @author  Feng Hao <flyinghail@msn.com>
- * @see     https://docs.yuansfer.com/#data_status
+ * @author  FENG Hao <flyinghail@msn.com>
+ * @see     https://docs.yuansfer.com/api-reference-v3/transaction-data-search/data-status
  *
  * @method $this setStoreAdminNo(string $storeAdminNo)
  */
@@ -31,7 +30,7 @@ class DataStatus extends AbstractApi
 
     protected function getPath()
     {
-        return 'app-data-search:data-status';
+        return 'app-data-search/' . self::VERSION . '/data-status';
     }
 
     /**

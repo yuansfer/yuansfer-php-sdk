@@ -9,8 +9,8 @@ use Yuansfer\Exception\InvalidParamException;
  * Class TranList
  *
  * @package Yuansfer\Api
- * @author  Feng Hao <flyinghail@msn.com>
- * @see     https://docs.yuansfer.com/#trans_list
+ * @author  FENG Hao <flyinghail@msn.com>
+ * @see     https://docs.yuansfer.com/api-reference-v3/transaction-data-search/trans-list
  *
  * @method $this setStoreAdminNo(string $storeAdminNo)
  */
@@ -32,7 +32,7 @@ class TransList extends AbstractApi
 
     protected function getPath()
     {
-        return 'app-data-search:trans-list';
+        return 'app-data-search/' . self::VERSION . '/trans-list';
     }
 
     /**

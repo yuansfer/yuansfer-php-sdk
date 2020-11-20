@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Yuansfer\Api;
 
 use Yuansfer\Exception\InvalidParamException;
@@ -9,8 +8,8 @@ use Yuansfer\Exception\InvalidParamException;
  * Class Add
  *
  * @package Yuansfer\Api
- * @author  Feng Hao <flyinghail@msn.com>
- * @see     https://docs.yuansfer.com/#add
+ * @author  FENG Hao <flyinghail@msn.com>
+ * @see     https://docs.yuansfer.com/api-reference-v3/payments/in-store-payment/scan-qrcode/add
  *
  * @method $this setStoreAdminNo(string $storeAdminNo)
  * @method $this setReference(string $reference)
@@ -22,6 +21,7 @@ class Add extends AbstractApi
         $this->addRequired(array(
             'amount',
             'currency',
+            'settleCurrency',
         ));
 
         $this->addCallabe(array(
@@ -34,7 +34,7 @@ class Add extends AbstractApi
 
     protected function getPath()
     {
-        return 'app-instore:add';
+        return 'app-instore/' . self::VERSION . '/add';
     }
 
     /**
@@ -61,6 +61,18 @@ class Add extends AbstractApi
     public function setCurrency($currency)
     {
         $this->params['currency'] = \strtoupper($currency);
+
+        return $this;
+    }
+
+    /**
+     * @param string $currency
+     *
+     * @return $this
+     */
+    public function setSettleCurrency($currency)
+    {
+        $this->params['settleCurrency'] = \strtoupper($currency);
 
         return $this;
     }

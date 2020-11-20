@@ -8,11 +8,11 @@ use Yuansfer\Exception\YuansferException;
  * Interface ApiInterface
  *
  * @package Yuansfer
- * @author Feng Hao <flyinghail@msn.com>
+ * @author FENG Hao <flyinghail@msn.com>
  */
 interface ApiInterface
 {
-    const VERSION = 'v2';
+    const VERSION = 'v3';
 
     /**
      * @return string

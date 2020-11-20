@@ -9,8 +9,8 @@ use Yuansfer\Exception\InvalidParamException;
  * Class SettleList
  *
  * @package Yuansfer\Api
- * @author  Feng Hao <flyinghail@msn.com>
- * @see     https://docs.yuansfer.com/#settle_list
+ * @author  FENG Hao <flyinghail@msn.com>
+ * @see     https://docs.yuansfer.com/api-reference-v3/transaction-data-search/settle-list
  *
  * @method $this setStoreAdminNo(string $storeAdminNo)
  */
@@ -32,7 +32,7 @@ class SettleList extends AbstractApi
 
     protected function getPath()
     {
-        return 'app-data-search:settle-list';
+        return 'app-data-search/' . self::VERSION . '/settle-list';
     }
 
     /**

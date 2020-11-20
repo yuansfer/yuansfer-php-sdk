@@ -21,8 +21,8 @@ $api = $yuansfer->createSecurePay();
 $api
     ->setAmount(0.01) //The amount of the transaction.
     ->setCurrency('USD') // The currency, USD, CAD supported yet.
-    ->setVendor('alipay') // The payment channel, alipay, wechatpay, unionpay, enterprisepay are supported yet.
-    ->setTerminal('ONLINE') // ONLINE, WAP
+    ->setVendor('alipay') // The payment channel, alipay, wechatpay, unionpay, creditcard, paypal, venmo are supported yet.
+    // ->setTerminal('ONLINE') // When you set "vendor", "terminal" will auto detect and fill, so you don't need to set manually.
     ->setReference(str_replace('.', '_', uniqid('test_', true))) //The unque ID of client’s system.
     ->setIpnUrl('https://domain/example/callback_secure_pay_ipn.php') // The asynchronous callback method. https only
     ->setCallbackUrl('https://domain/example/callback_secure_pay.php' . // The Synchronous callback method.

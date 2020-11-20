@@ -6,7 +6,7 @@ namespace Yuansfer\Util;
  * Class Sign
  *
  * @package Yuansfer
- * @author Feng Hao <flyinghail@msn.com>
+ * @author FENG Hao <flyinghail@msn.com>
  */
 class Sign
 {

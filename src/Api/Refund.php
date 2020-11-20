@@ -9,8 +9,8 @@ use Yuansfer\Exception\InvalidParamException;
  * Class Refund
  *
  * @package Yuansfer\Api
- * @author  Feng Hao <flyinghail@msn.com>
- * @see     https://docs.yuansfer.com/#refund
+ * @author  FENG Hao <flyinghail@msn.com>
+ * @see     https://docs.yuansfer.com/api-reference-v3/transaction-revert/refund
  *
  * @method $this setRefundReference(string $refundReference)
  */
@@ -19,7 +19,9 @@ class Refund extends AbstractApi
     public function __construct($yuansfer)
     {
         $this->addRequired(array(
-            array('amount', 'rmbAmount'),
+            'amount',
+            'currency',
+            'settleCurrency',
             array('reference', 'transactionNo'),
         ));
 
@@ -32,7 +34,7 @@ class Refund extends AbstractApi
 
     protected function getPath()
     {
-        return 'app-data-search:refund';
+        return 'app-data-search/' . self::VERSION . '/refund';
     }
 
     /**
@@ -47,24 +49,30 @@ class Refund extends AbstractApi
         }
 
         $this->params['amount'] = $amount;
-        unset($this->params['rmbAmount']);
 
         return $this;
     }
 
     /**
-     * @param number $amount
+     * @param string $currency
      *
      * @return $this
      */
-    public function setRmbAmount($amount)
+    public function setCurrency($currency)
     {
-        if (!\is_numeric($amount)) {
-            throw new InvalidParamException('The param `rmbAmount` is invalid in securepay');
-        }
+        $this->params['currency'] = \strtoupper($currency);
 
-        $this->params['rmbAmount'] = $amount;
-        unset($this->params['amount']);
+        return $this;
+    }
+
+    /**
+     * @param string $currency
+     *
+     * @return $this
+     */
+    public function setSettleCurrency($currency)
+    {
+        $this->params['currency'] = \strtoupper($currency);
 
         return $this;
     }

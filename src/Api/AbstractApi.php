@@ -23,7 +23,7 @@ use Yuansfer\Exception\HttpClientException;
  * Class AbstractApi
  *
  * @package Yuansfer\Api
- * @author  Feng Hao <flyinghail@msn.com>
+ * @author  FENG Hao <flyinghail@msn.com>
  *
  * @method $this setMerchantNo(string $merchantNo)
  * @method $this setStoreNo(string $storeNo)
@@ -136,12 +136,8 @@ abstract class AbstractApi implements ApiInterface
      */
     public function send()
     {
-        $base = '';
         $path = $this->getPath();
-        if (\strpos($path, ':') > 0) {
-            list($base, $path) = \explode(':', $path);
-        }
-        $url = $this->yuansfer->getUrl() . '/' . ($base ? $base . '/' : '') . static::VERSION . '/' . $path;
+        $url = $this->yuansfer->getUrl() . '/' . $path;
 
         if (!isset($this->params['merchantNo'])) {
             $this->params['merchantNo'] = $this->yuansfer->getMerchantNo();

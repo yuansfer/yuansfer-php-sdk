@@ -2,17 +2,16 @@
 
 namespace Yuansfer\Api;
 
+use Yuansfer\ApiInterface;
 
 /**
- * Class Reverse
+ * Class Cancel
  *
  * @package Yuansfer\Api
- * @author  Feng Hao <flyinghail@msn.com>
- * @see     https://docs.yuansfer.com/#reverse
- *
- * @method $this setStoreAdminNo(string $storeAdminNo)
+ * @author  FENG Hao <flyinghail@msn.com>
+ * @see     https://docs.yuansfer.com/api-reference-v3/transaction-revert/cancel
  */
-class Reverse extends AbstractApi
+class Cancel extends AbstractApi
 {
     public function __construct($yuansfer)
     {
@@ -20,16 +19,13 @@ class Reverse extends AbstractApi
             array('reference', 'transactionNo'),
         ));
 
-        $this->addCallabe(array(
-            'storeAdminNo',
-        ));
 
         parent::__construct($yuansfer);
     }
 
     protected function getPath()
     {
-        return 'app-data-search:reverse';
+        return 'app-data-search/' . ApiInterface::VERSION . '/cancel';
     }
 
     /**

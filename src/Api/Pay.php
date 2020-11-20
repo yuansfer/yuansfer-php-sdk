@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Yuansfer\Api;
 
 use Yuansfer\Exception\InvalidParamException;
@@ -9,8 +8,8 @@ use Yuansfer\Exception\InvalidParamException;
  * Class Pay
  *
  * @package Yuansfer\Api
- * @author  Feng Hao <flyinghail@msn.com>
- * @see     https://docs.yuansfer.com/#pay
+ * @author  FENG Hao <flyinghail@msn.com>
+ * @see     https://docs.yuansfer.com/api-reference-v3/payments/in-store-payment/scan-qrcode/pay
  *
  * @method $this setStoreAdminNo(string $storeAdminNo)
  * @method $this setPaymentBarcode(string $paymentBarcode)
@@ -35,7 +34,7 @@ class Pay extends AbstractApi
 
     protected function getPath()
     {
-        return 'app-instore:pay';
+        return 'app-instore/' . self::VERSION . '/pay';
     }
 
     /**
@@ -72,7 +71,7 @@ class Pay extends AbstractApi
      */
     public function setVendor($vendor)
     {
-        if (!\in_array($vendor, array('alipay', 'wechatpay', 'unionpay'), true)) {
+        if (!\in_array($vendor, array('alipay', 'wechatpay', 'unionpay', 'paypal', 'venmo'), true)) {
             throw new InvalidParamException('The param `vender` is invalid in pay');
         }
 

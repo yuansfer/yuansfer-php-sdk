@@ -6,7 +6,7 @@
   "homepage": "https://www.yuansfer.com/",
   "authors": [
     {
-      "name": "Feng Hao",
+      "name": "FENG Hao",
       "email": "flyinghail@msn.com"
     }
   ],
@@ -29,6 +29,7 @@
   "require": {
     "php": ">=5.3",
     "ext-json": "*",
-    "nategood/httpful": "^0.2.20"
+    "nategood/httpful": "^0.2.20",
+    "mobiledetect/mobiledetectlib": "^2.8"
   }
 }

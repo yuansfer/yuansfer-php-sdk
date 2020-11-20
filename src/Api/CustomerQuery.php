@@ -7,7 +7,7 @@ namespace Yuansfer\Api;
  * Class CustomerQuery
  *
  * @package Yuansfer\Api
- * @author  Feng Hao <flyinghail@msn.com>
+ * @author  FENG Hao <flyinghail@msn.com>
  */
 class CustomerQuery extends AbstractApi
 {
@@ -22,7 +22,7 @@ class CustomerQuery extends AbstractApi
 
     protected function getPath()
     {
-        return 'creditpay:customer/detail';
+        return 'creditpay/v2/customer/detail';
     }
 
     /**

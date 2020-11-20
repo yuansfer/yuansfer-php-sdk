@@ -9,8 +9,8 @@ use Yuansfer\Exception\InvalidParamException;
  * Class WithdrawalList
  *
  * @package Yuansfer\Api
- * @author  Feng Hao <flyinghail@msn.com>
- * @see     https://docs.yuansfer.com/#withdrawal_list
+ * @author  FENG Hao <flyinghail@msn.com>
+ * @see     https://docs.yuansfer.com/api-reference-v3/transaction-data-search/withdrawal-list
  *
  * @method $this setStoreAdminNo(string $storeAdminNo)
  */

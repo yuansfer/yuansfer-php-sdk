@@ -8,8 +8,8 @@ use Yuansfer\Exception\InvalidParamException;
  * Class Prepay
  *
  * @package Yuansfer\Api
- * @author  Feng Hao <flyinghail@msn.com>
- * @see     https://docs.yuansfer.com/#prepay
+ * @author  FENG Hao <flyinghail@msn.com>
+ * @see     https://docs.yuansfer.com/api-reference-v3/payments/online-payment/prepay
  *
  * @method $this setDescription(string $description)
  * @method $this setIpnUrl(string $ipnUrl)
@@ -22,8 +22,9 @@ class Prepay extends AbstractApi
     public function __construct($yuansfer)
     {
         $this->addRequired(array(
-            array('amount', 'rmbAmount'),
+            'amount',
             'currency',
+            'settleCurrency',
             'vendor',
             'ipnUrl',
             'callbackUrl',
@@ -44,7 +45,7 @@ class Prepay extends AbstractApi
 
     protected function getPath()
     {
-        return 'micropay:prepay';
+        return 'micropay/' . self::VERSION . '/prepay';
     }
 
     /**
@@ -59,24 +60,6 @@ class Prepay extends AbstractApi
         }
 
         $this->params['amount'] = $amount;
-        unset($this->params['rmbAmount']);
-
-        return $this;
-    }
-
-    /**
-     * @param number $amount
-     *
-     * @return $this
-     */
-    public function setRmbAmount($amount)
-    {
-        if (!\is_numeric($amount)) {
-            throw new InvalidParamException('The param `rmbAmount` is invalid in securepay');
-        }
-
-        $this->params['rmbAmount'] = $amount;
-        unset($this->params['amount']);
 
         return $this;
     }
@@ -87,6 +70,18 @@ class Prepay extends AbstractApi
      * @return $this
      */
     public function setCurrency($currency)
+    {
+        $this->params['currency'] = \strtoupper($currency);
+
+        return $this;
+    }
+
+    /**
+     * @param string $currency
+     *
+     * @return $this
+     */
+    public function setSettleCurrency($currency)
     {
         $this->params['currency'] = \strtoupper($currency);
 
@@ -136,7 +131,7 @@ class Prepay extends AbstractApi
      */
     public function setVendor($vendor)
     {
-        if (!\in_array($vendor, array('alipay', 'wechatpay'), true)) {
+        if (!\in_array($vendor, array('alipay', 'wechatpay', 'paypal', 'venmo'), true)) {
             throw new InvalidParamException('The param `vender` is invalid in prepay');
         }
 

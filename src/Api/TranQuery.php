@@ -7,8 +7,8 @@ namespace Yuansfer\Api;
  * Class TranQuery
  *
  * @package Yuansfer\Api
- * @author  Feng Hao <flyinghail@msn.com>
- * @see     https://docs.yuansfer.com/#tran_query
+ * @author  FENG Hao <flyinghail@msn.com>
+ * @see     https://docs.yuansfer.com/api-reference-v3/transaction-data-search/tran-query
  */
 class TranQuery extends AbstractApi
 {
@@ -23,7 +23,7 @@ class TranQuery extends AbstractApi
 
     protected function getPath()
     {
-        return 'app-data-search:tran-query';
+        return 'app-data-search/' . self::VERSION . '/tran-query';
     }
 
     /**
