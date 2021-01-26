@@ -72,7 +72,7 @@ class Refund extends AbstractApi
      */
     public function setSettleCurrency($currency)
     {
-        $this->params['currency'] = \strtoupper($currency);
+        $this->params['settleCurrency'] = \strtoupper($currency);
 
         return $this;
     }
