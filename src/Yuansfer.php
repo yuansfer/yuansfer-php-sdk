@@ -18,6 +18,7 @@ use Yuansfer\Util\Sign;
  * @method Api\SecurePay createSecurePay()
  *
  * Yuansfer Integrated Payment
+ * @method Api\Process createProcess()
  * @method Api\Prepay createPrepay()
  *
  * Point of Sale Integration

@@ -145,9 +145,10 @@ try {
 
 ##### Yuansfer Integrated Payment
 
-| API                                                          | Call                        | Description                                          |
-| ------------------------------------------------------------ | --------------------------- | ---------------------------------------------------- |
-| [prepay()](https://docs.yuansfer.com/api-reference-v3/payments/online-payment/prepay) | `$yuansfer->createPrepay()` | This API does the mobile payment for the POS system. |
+| API                                                          | Call                         | Description                                          |
+| ------------------------------------------------------------ | ---------------------------- | ---------------------------------------------------- |
+| [process()](https://docs.yuansfer.com/api-reference-v3/payments/online-payment/yuansfer-integrated-payment/braintree-payments) | `$yuansfer->createProcess()` | Braintree Payments                                   |
+| [prepay()](https://docs.yuansfer.com/api-reference-v3/payments/online-payment/prepay) | `$yuansfer->createPrepay()`  | This API does the mobile payment for the POS system. |
 
 #### Point of Sale Payment
 
