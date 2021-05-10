@@ -19,7 +19,7 @@ class Refund extends AbstractApi
     public function __construct($yuansfer)
     {
         $this->addRequired(array(
-            'amount',
+            'refundAmount',
             'currency',
             'settleCurrency',
             array('reference', 'transactionNo'),
@@ -38,17 +38,28 @@ class Refund extends AbstractApi
     }
 
     /**
+     * @deprecated
      * @param number $amount
      *
      * @return $this
      */
     public function setAmount($amount)
     {
+        return $this->setRefundAmount($amount);
+    }
+
+    /**
+     * @param number $amount
+     *
+     * @return $this
+     */
+    public function setRefundAmount($amount)
+    {
         if (!\is_numeric($amount)) {
-            throw new InvalidParamException('The param `amount` is invalid in securepay');
+            throw new InvalidParamException('The param `refundAmount` is invalid in refund');
         }
 
-        $this->params['amount'] = $amount;
+        $this->params['refundAmount'] = $amount;
 
         return $this;
     }

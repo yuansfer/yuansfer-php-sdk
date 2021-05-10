@@ -15,11 +15,11 @@ $yuansfer = new Yuansfer($config);
 $yuansfer->setTestMode();
 
 // create api
-$api = $yuansfer->createSecurePayRefund();
+$api = $yuansfer->createRefund();
 
 // set api parameters
 $api
-    ->setAmount(0.01) // The amount you need to refund.
+    ->setRefundAmount(0.01) // The amount you need to refund.
     ->setReference('444444'); // The unque ID of client’s system.
 
 try {
