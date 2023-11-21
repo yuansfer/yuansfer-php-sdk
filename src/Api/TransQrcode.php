@@ -10,7 +10,7 @@ use Yuansfer\Exception\InvalidParamException;
  *
  * @package Yuansfer\Api
  * @author  FENG Hao <flyinghail@msn.com>
- * @see     https://docs.yuansfer.com/api-reference-v3/payments/in-store-payment/create-qrcode
+ * @see     https://docs.pockyt.io/in-store-apis/merchant-presented-workflow/create-qrc-api
  *
  * @method $this setStoreAdminNo(string $storeAdminNo)
  * @method $this setIpnUrl(string $ipnUrl)
@@ -27,7 +27,7 @@ class TransQrcode extends AbstractApi
             'amount',
         ));
 
-        $this->addCallabe(array(
+        $this->addCallable(array(
             'storeAdminNo',
             'ipnUrl',
         ));
@@ -52,9 +52,7 @@ class TransQrcode extends AbstractApi
             throw new InvalidParamException('The param `amount` is invalid in create-trans-qrcode');
         }
 
-        $this->params['amount'] = $amount;
-
-        return $this;
+        return $this->setParams('amount', $amount);
     }
 
     /**
@@ -64,9 +62,7 @@ class TransQrcode extends AbstractApi
      */
     public function setCurrency($currency)
     {
-        $this->params['currency'] = \strtoupper($currency);
-
-        return $this;
+        return $this->setParams('currency', \strtoupper($currency));
     }
 
     /**
@@ -76,9 +72,7 @@ class TransQrcode extends AbstractApi
      */
     public function setSettleCurrency($currency)
     {
-        $this->params['settleCurrency'] = \strtoupper($currency);
-
-        return $this;
+        return $this->setParams('settleCurrency', \strtoupper($currency));
     }
 
     /**
@@ -88,10 +82,9 @@ class TransQrcode extends AbstractApi
      */
     public function setReference($reference)
     {
-        $this->params['reference'] = $reference;
         unset($this->params['transactionNo']);
 
-        return $this;
+        return $this->setParams('reference', $reference);
     }
 
     /**
@@ -101,10 +94,9 @@ class TransQrcode extends AbstractApi
      */
     public function setTransactionNo($transactionNo)
     {
-        $this->params['transactionNo'] = $transactionNo;
         unset($this->params['reference']);
 
-        return $this;
+        return $this->setParams('transactionNo', $transactionNo);
     }
 
     /**
@@ -119,9 +111,7 @@ class TransQrcode extends AbstractApi
             throw new InvalidParamException('The param `vender` is invalid in create-trans-qrcode');
         }
 
-        $this->params['vendor'] = $vendor;
-
-        return $this;
+        return $this->setParams('vendor', $vendor);
     }
 
     /**
@@ -132,9 +122,8 @@ class TransQrcode extends AbstractApi
     public function setNeedQrcode($needQrcode)
     {
         $needQrcode = (bool) $needQrcode;
-        $this->params['needQrcode'] = $needQrcode ? 'true' : 'false';
 
-        return $this;
+        return $this->setParams('needQrcode', $needQrcode ? 'true' : 'false');
     }
 
     /**
@@ -147,7 +136,7 @@ class TransQrcode extends AbstractApi
         $timeout = (int) $timeout;
 
         if ($timeout > 0) {
-            $this->params['timeout'] = (int) $timeout;
+            return $this->setParams('timeout', $timeout);
         }
 
         return $this;

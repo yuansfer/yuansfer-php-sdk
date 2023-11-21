@@ -1,6 +1,6 @@
 <?php
 /**
- * @see https://docs.yuansfer.com/#secure_pay
+ * @see https://docs.pockyt.io/ecommerce-apis/pockyt-hosted-checkout
  */
 require dirname(__DIR__) . '/vendor/autoload.php';
 
@@ -22,6 +22,7 @@ $api
     ->setAmount(0.01) //The amount of the transaction.
     ->setCurrency('USD') // The currency, USD, CAD supported yet.
     ->setVendor('alipay') // The payment channel, alipay, wechatpay, unionpay, creditcard, paypal, venmo are supported yet.
+    ->setSettleCurrency('USD') // When the currency is "GBP", the settlement currency is "GBP". All other currencies settle with "USD"
     // ->setTerminal('ONLINE') // When you set "vendor", "terminal" will auto detect and fill, so you don't need to set manually.
     ->setReference(str_replace('.', '_', uniqid('test_', true))) //The unque ID of client’s system.
     ->setIpnUrl('https://domain/example/callback_secure_pay_ipn.php') // The asynchronous callback method. https only

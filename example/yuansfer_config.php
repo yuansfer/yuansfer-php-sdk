@@ -7,4 +7,5 @@ return array(
     Yuansfer::STORE_NO => 'The store NO.',
     Yuansfer::API_TOKEN => 'Yuansfer API token',
     Yuansfer::TEST_API_TOKEN => 'Yuansfer API token for test mode',
+    Yuansfer::MER_GROUP_NO => 'The merchant group NO, optional.',
 );

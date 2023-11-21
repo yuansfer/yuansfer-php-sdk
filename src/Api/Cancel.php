@@ -9,7 +9,7 @@ use Yuansfer\ApiInterface;
  *
  * @package Yuansfer\Api
  * @author  FENG Hao <flyinghail@msn.com>
- * @see     https://docs.yuansfer.com/api-reference-v3/transaction-revert/cancel
+ * @see     https://docs.pockyt.io/in-store-apis/cancel-api
  */
 class Cancel extends AbstractApi
 {
@@ -35,10 +35,9 @@ class Cancel extends AbstractApi
      */
     public function setReference($reference)
     {
-        $this->params['reference'] = $reference;
         unset($this->params['transactionNo']);
 
-        return $this;
+        return $this->setParams('reference', $reference);
     }
 
     /**
@@ -48,9 +47,8 @@ class Cancel extends AbstractApi
      */
     public function setTransactionNo($transactionNo)
     {
-        $this->params['transactionNo'] = $transactionNo;
         unset($this->params['reference']);
 
-        return $this;
+        return $this->setParams('transactionNo', $transactionNo);
     }
 }

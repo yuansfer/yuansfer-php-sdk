@@ -1,6 +1,6 @@
 <?php
 /**
- * @see https://docs.yuansfer.com/#refund
+ * @see https://docs.pockyt.io/refund-and-query-apis/refund-api
  */
 require dirname(__DIR__) . '/vendor/autoload.php';
 

@@ -9,7 +9,7 @@ use Yuansfer\Exception\InvalidParamException;
  *
  * @package Yuansfer\Api
  * @author  FENG Hao <flyinghail@msn.com>
- * @see     https://docs.yuansfer.com/api-reference-v3/payments/online-payment/secure-pay
+ * @see     https://docs.pockyt.io/ecommerce-apis/pockyt-hosted-checkout/securepay-api
  *
  * @method $this setCallbackUrl(string $callbackUrl)
  * @method $this setDescription(string $description)
@@ -37,7 +37,7 @@ class SecurePay extends AbstractApi
             'reference',
         ));
 
-        $this->addCallabe(array(
+        $this->addCallable(array(
             'callbackUrl',
             'description',
             'ipnUrl',
@@ -69,9 +69,8 @@ class SecurePay extends AbstractApi
             throw new InvalidParamException('The param `amount` is invalid in securepay');
         }
 
-        $this->params['amount'] = $amount;
-
-        return $this->validate('amount');
+        return $this->setParams('amount', $amount)
+            ->validate('amount');
     }
 
     /**
@@ -81,9 +80,8 @@ class SecurePay extends AbstractApi
      */
     public function setCurrency($currency)
     {
-        $this->params['currency'] = \strtoupper($currency);
-
-        return $this->validate('currency');
+        return $this->setParams('currency', \strtoupper($currency))
+            ->validate('currency');
     }
 
     /**
@@ -93,9 +91,8 @@ class SecurePay extends AbstractApi
      */
     public function setSettleCurrency($currency)
     {
-        $this->params['settleCurrency'] = \strtoupper($currency);
-
-        return $this->validate('settleCurrency');
+        return $this->setParams('settleCurrency', \strtoupper($currency))
+            ->validate('settleCurrency');
     }
 
     /**
@@ -112,7 +109,7 @@ class SecurePay extends AbstractApi
             throw new InvalidParamException('The param `terminal` is invalid in securepay');
         }
 
-        $this->params['terminal'] = $terminal;
+        $this->setParams('terminal', $terminal);
 
         if (!isset($this->params['osType'])) {
             if ($terminal === 'WAP' || $terminal === 'MWEB') {
@@ -138,7 +135,7 @@ class SecurePay extends AbstractApi
         $timeout = (int) $timeout;
 
         if ($timeout > 0) {
-            $this->params['timeout'] = (int) $timeout;
+            $this->setParams('timeout', $timeout);
         }
 
         return $this;
@@ -152,7 +149,7 @@ class SecurePay extends AbstractApi
      */
     public function setVendor($vendor)
     {
-        if (!\in_array($this->params['vendor'], array(
+        if (!\in_array($vendor, array(
             'alipay', 'wechatpay', 'unionpay', 'creditcard', 'paypal', 'venmo',
             'truemoney', 'alipay_hk', 'tng', 'gcash', 'dana', 'kakaopay', 'bkash', 'easypaisa',
             'googlepay', 'applepay'
@@ -160,7 +157,7 @@ class SecurePay extends AbstractApi
             throw new InvalidParamException('The param `vender` is invalid in securepay');
         }
 
-        $this->params['vendor'] = $vendor;
+        $this->setParams('vendor', $vendor);
 
         if (!isset($this->params['terminal'])) {
             $terminal = self::$detect->isMobile() ? 'WAP' : 'ONLINE';
@@ -184,9 +181,7 @@ class SecurePay extends AbstractApi
             throw new InvalidParamException('The param `goodsInfo` must be an array');
         }
 
-        $this->params['goodsInfo'] = \json_encode($goodsInfo);
-
-        return $this;
+        return $this->setParams('goodsInfo', \json_encode($goodsInfo));
     }
 
     /**
@@ -200,9 +195,7 @@ class SecurePay extends AbstractApi
             throw new InvalidParamException('The param `creditType` is invalid in securepay');
         }
 
-        $this->params['creditType'] = $creditType;
-
-        return $this;
+        return $this->setParams('creditType', $creditType);
     }
 
     /**
@@ -216,9 +209,7 @@ class SecurePay extends AbstractApi
             throw new InvalidParamException('The param `osType` is invalid in securepay');
         }
 
-        $this->params['osType'] = $osType;
-
-        return $this;
+        return $this->setParams('osType', $osType);
     }
 
     /**
