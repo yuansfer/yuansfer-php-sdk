@@ -5,7 +5,7 @@
 [![Monthly Downloads](https://poser.pugx.org/yuansfer/yuansfer-php-sdk/d/monthly)](https://packagist.org/packages/yuansfer/yuansfer-php-sdk)
 [![License](https://poser.pugx.org/yuansfer/yuansfer-php-sdk/license)](https://packagist.org/packages/yuansfer/yuansfer-php-sdk)
 
-[Yuansfer Online API](https://docs.yuansfer.com/)
+[Yuansfer Online API](https://docs.pockyt.io/)
 
 
 ## Requirements
@@ -65,6 +65,7 @@ $config = array(
     Yuansfer::STORE_NO => 'The store NO.',
     Yuansfer::API_TOKEN => 'Yuansfer API token',
     Yuansfer::TEST_API_TOKEN => 'Yuansfer API token for test mode',
+    Yuansfer::MER_GROUP_NO => 'The merchant group NO, optional.',
 );
 
 $yuansfer = new Yuansfer($config);
@@ -127,59 +128,43 @@ try {
 }
 ```
 
-
-
 ## API Documents
 
-[Official Documents](https://docs.yuansfer.com/)
+[Official Documents](https://docs.pockyt.io/)
 
-### Payments
+### IN-STORE API'S
 
-#### Online Payment
-
-##### Yuansfer Checkout
-
-| API                                                          | Call                           | Description                       |
-| ------------------------------------------------------------ | ------------------------------ | --------------------------------- |
-| [secure-pay()](https://docs.yuansfer.com/api-reference-v3/payments/online-payment/secure-pay) | `$yuansfer->createSecurePay()` | This is used to pay for an order. |
-
-##### Yuansfer Integrated Payment
-
-| API                                                          | Call                         | Description                                          |
-| ------------------------------------------------------------ | ---------------------------- | ---------------------------------------------------- |
-| [process()](https://docs.yuansfer.com/api-reference-v3/payments/online-payment/yuansfer-integrated-payment/braintree-payments) | `$yuansfer->createProcess()` | Braintree Payments                                   |
-| [prepay()](https://docs.yuansfer.com/api-reference-v3/payments/online-payment/prepay) | `$yuansfer->createPrepay()`  | This API does the mobile payment for the POS system. |
-
-#### Point of Sale Payment
-
-##### Scan QR Code
-
-| API                                                          | Call                     | Description                                                  |
-| ------------------------------------------------------------ | ------------------------ | ------------------------------------------------------------ |
-| [add()](https://docs.yuansfer.com/api-reference-v3/payments/in-store-payment/scan-qrcode/add) | `$yuansfer->createAdd()` | This API initiates a **Barcode/QR Code Payment** request and creates a transaction order. |
-| [pay()](https://docs.yuansfer.com/api-reference-v3/payments/in-store-payment/scan-qrcode/pay) | `$yuansfer->createPay()` | This API places an order in the **Barcode/QR Code Payment**. |
-
-#### Create QR Code
+#### Merchant Presented Workflow
 
 | API                                                          | Call                             | Description                                                  |
 | ------------------------------------------------------------ | -------------------------------- | ------------------------------------------------------------ |
-| [create-trans-qrcode()](https://docs.yuansfer.com/api-reference-v3/payments/in-store-payment/create-qrcode) | `$yuansfer->createTransQrcode()` | This API creates a transaction and get a QR code for customers to scan to pay in the **Transaction QR Code Payment** process. Customers scan this QR code using the wallet app to checkout. |
+| [create-trans-qrcode()](https://docs.pockyt.io/in-store-apis/merchant-presented-workflow/create-qrc-api) | `$yuansfer->createTransQrcode()` | This API creates a transaction and get a QR code for customers to scan to pay in the **Transaction QR Code Payment** process. Customers scan this QR code using the wallet app to checkout. |
 
-### Transaction Revert
+#### Customer Presented Workflow
+
+| API                                                          | Call                     | Description                                                  |
+| ------------------------------------------------------------ | ------------------------ | ------------------------------------------------------------ |
+| [add()](https://docs.pockyt.io/in-store-apis/customer-presented-workflow/add-transaction-api) | `$yuansfer->createAdd()` | This API initiates a **Barcode/QR Code Payment** request and creates a transaction order. |
+| [prepay()](https://docs.pockyt.io/in-store-apis/customer-presented-workflow/pay-transaction-api) | `$yuansfer->createPrepay()`  | This API does the mobile payment for the POS system. |
+| [cancel()](https://docs.pockyt.io/in-store-apis/cancel-api) | `$yuansfer->createCancel()` | This API cancels the payment of a transaction. |
+
+### REFUND AND QUERY API'S
 
 | API                                                          | Call                        | Description                                    |
 | ------------------------------------------------------------ | --------------------------- | ---------------------------------------------- |
-| [refund()](https://docs.yuansfer.com/#refund)                | `$yuansfer->createRefund()` | This API refunds the payment of a transaction. |
-| [cancel()](https://docs.yuansfer.com/api-reference-v3/transaction-revert/cancel) | `$yuansfer->createCancel()` | This API cancels the payment of a transaction. |
+| [refund()](https://docs.pockyt.io/refund-and-query-apis/refund-api)                | `$yuansfer->createRefund()` | This API refunds the payment of a transaction. |
+| [tran-query()](https://docs.pockyt.io/refund-and-query-apis/query-api) | `$yuansfer->createTranQuery()`      | This API gets the transaction details by ID of a transaction in the merchant's system. |
 
+### ECOMMERCE API'S
 
+#### Pockyt Hosted Checkout
 
-### Transaction Data Search
+| API                                                          | Call                           | Description                       |
+| ------------------------------------------------------------ | ------------------------------ | --------------------------------- |
+| [secure-pay()](https://docs.pockyt.io/api-reference-v3/payments/online-payment/secure-pay) | `$yuansfer->createSecurePay()` | This is used to pay for an order. |
 
-| API                                                          | Call                                | Description                                                  |
-| ------------------------------------------------------------ | ----------------------------------- | ------------------------------------------------------------ |
-| [tran-query()](https://docs.yuansfer.com/api-reference-v3/transaction-data-search/tran-query) | `$yuansfer->createTranQuery()`      | This API gets the transaction details by ID of a transaction in the merchant's system. |
-| [trans-list()](https://docs.yuansfer.com/api-reference-v3/transaction-data-search/trans-list) | `$yuansfer->createTransList()`      | This API gets all transaction details for a given time period. |
-| [settle-list()](https://docs.yuansfer.com/api-reference-v3/transaction-data-search/settle-list) | `$yuansfer->createSettleList()`     | This API gets all settlement details for a given time period. |
-| [withdrawal-list()](https://docs.yuansfer.com/api-reference-v3/transaction-data-search/withdrawal-list) | `$yuansfer->createWithdrawalList()` | This API gets all withdrawal details for a given time period. |
-| [data-status()](https://docs.yuansfer.com/api-reference-v3/transaction-data-search/data-status) | `$yuansfer->createDataStatus()`     | This API gets the settlement status for a given date.        |
+#### Pockyt Integrated Payments
+
+| API                                                          | Call                         | Description                                          |
+| ------------------------------------------------------------ | ---------------------------- | ---------------------------------------------------- |
+| [process()](https://docs.pockyt.io/pockyt-integrated-payments/process-api) | `$yuansfer->createProcess()` | Braintree Payments                                   |

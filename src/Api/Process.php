@@ -9,7 +9,7 @@ use Yuansfer\Exception\InvalidParamException;
  *
  * @package Yuansfer\Api
  * @author  FENG Hao <flyinghail@msn.com>
- * @see     https://docs.yuansfer.com/api-reference-v3/payments/online-payment/yuansfer-integrated-payment/braintree-payments
+ * @see     https://docs.pockyt.io/pockyt-integrated-payments/process-api
  *
  * @method $this setPaymentMethodNonce(string $paymentMethodNonce)
  * @method $this setTransactionNo(string $transactionNo)
@@ -24,7 +24,7 @@ class Process extends AbstractApi
             'transactionNo',
         ));
 
-        $this->addCallabe(array(
+        $this->addCallable(array(
             'paymentMethodNonce',
             'transactionNo',
         ));
@@ -48,8 +48,6 @@ class Process extends AbstractApi
             throw new InvalidParamException('The param `paymentMethod` is invalid in process');
         }
 
-        $this->params['paymentMethod'] = $paymentMethod;
-
-        return $this;
+        return $this->setParams('paymentMethod', $paymentMethod);
     }
 }

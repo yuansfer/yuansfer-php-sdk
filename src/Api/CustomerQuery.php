@@ -32,10 +32,9 @@ class CustomerQuery extends AbstractApi
      */
     public function setCustomerCode($customerCode)
     {
-        $this->params['customerCode'] = $customerCode;
         unset($this->params['customerNo']);
 
-        return $this;
+        return $this->setParams('customerCode', $customerCode);
     }
 
     /**
@@ -45,9 +44,8 @@ class CustomerQuery extends AbstractApi
      */
     public function setCustomerNo($customerNo)
     {
-        $this->params['customerNo'] = $customerNo;
         unset($this->params['customerCode']);
 
-        return $this;
+        return $this->setParams('customerNo', $customerNo);
     }
 }

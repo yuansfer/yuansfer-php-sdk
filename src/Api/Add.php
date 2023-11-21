@@ -9,7 +9,7 @@ use Yuansfer\Exception\InvalidParamException;
  *
  * @package Yuansfer\Api
  * @author  FENG Hao <flyinghail@msn.com>
- * @see     https://docs.yuansfer.com/api-reference-v3/payments/in-store-payment/scan-qrcode/add
+ * @see     https://docs.pockyt.io/in-store-apis/customer-presented-workflow/add-transaction-api
  *
  * @method $this setStoreAdminNo(string $storeAdminNo)
  * @method $this setReference(string $reference)
@@ -24,7 +24,7 @@ class Add extends AbstractApi
             'settleCurrency',
         ));
 
-        $this->addCallabe(array(
+        $this->addCallable(array(
             'storeAdminNo',
             'reference',
         ));
@@ -48,9 +48,7 @@ class Add extends AbstractApi
             throw new InvalidParamException('The param `amount` is invalid in add');
         }
 
-        $this->params['amount'] = $amount;
-
-        return $this;
+        return $this->setParams('amount', $amount);
     }
 
     /**
@@ -60,9 +58,7 @@ class Add extends AbstractApi
      */
     public function setCurrency($currency)
     {
-        $this->params['currency'] = \strtoupper($currency);
-
-        return $this;
+        return $this->setParams('currency', \strtoupper($currency));
     }
 
     /**
@@ -72,8 +68,6 @@ class Add extends AbstractApi
      */
     public function setSettleCurrency($currency)
     {
-        $this->params['settleCurrency'] = \strtoupper($currency);
-
-        return $this;
+        return $this->setParams('settleCurrency', \strtoupper($currency));
     }
 }

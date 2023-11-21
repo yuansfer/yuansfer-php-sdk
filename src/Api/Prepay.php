@@ -9,7 +9,7 @@ use Yuansfer\Exception\InvalidParamException;
  *
  * @package Yuansfer\Api
  * @author  FENG Hao <flyinghail@msn.com>
- * @see     https://docs.yuansfer.com/api-reference-v3/payments/online-payment/prepay
+ * @see     https://docs.pockyt.io/in-store-apis/customer-presented-workflow/pay-transaction-api
  *
  * @method $this setDescription(string $description)
  * @method $this setIpnUrl(string $ipnUrl)
@@ -32,7 +32,7 @@ class Prepay extends AbstractApi
             'reference',
         ));
 
-        $this->addCallabe(array(
+        $this->addCallable(array(
             'description',
             'ipnUrl',
             'note',
@@ -59,9 +59,7 @@ class Prepay extends AbstractApi
             throw new InvalidParamException('The param `amount` is invalid in securepay');
         }
 
-        $this->params['amount'] = $amount;
-
-        return $this;
+        return $this->setParams('amount', $amount);
     }
 
     /**
@@ -71,9 +69,7 @@ class Prepay extends AbstractApi
      */
     public function setCurrency($currency)
     {
-        $this->params['currency'] = \strtoupper($currency);
-
-        return $this;
+        return $this->setParams('currency', \strtoupper($currency));
     }
 
     /**
@@ -83,9 +79,7 @@ class Prepay extends AbstractApi
      */
     public function setSettleCurrency($currency)
     {
-        $this->params['settleCurrency'] = \strtoupper($currency);
-
-        return $this;
+        return $this->setParams('settleCurrency', \strtoupper($currency));
     }
 
     /**
@@ -102,9 +96,7 @@ class Prepay extends AbstractApi
             throw new InvalidParamException('The param `terminal` is invalid in prepay');
         }
 
-        $this->params['terminal'] = $terminal;
-
-        return $this;
+        return $this->setParams('terminal', $terminal);
     }
 
     /**
@@ -117,7 +109,7 @@ class Prepay extends AbstractApi
         $timeout = (int) $timeout;
 
         if ($timeout > 0) {
-            $this->params['timeout'] = (int) $timeout;
+            $this->setParams('timeout', $timeout);
         }
 
         return $this;
@@ -135,8 +127,6 @@ class Prepay extends AbstractApi
             throw new InvalidParamException('The param `vender` is invalid in prepay');
         }
 
-        $this->params['vendor'] = $vendor;
-
-        return $this;
+        return $this->setParams('vendor', $vendor);
     }
 }

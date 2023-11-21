@@ -2,7 +2,6 @@
 
 namespace Yuansfer;
 
-use Yuansfer\Api\WithdrawalList;
 use Yuansfer\Exception\BadMethodCallException;
 use Yuansfer\Exception\InvalidArgumentException;
 use Yuansfer\Util\Sign;
@@ -14,31 +13,14 @@ use Yuansfer\Util\Sign;
  * @package Yuansfer
  * @author  FENG Hao <flyinghail@msn.com>
  *
- * Checkout
  * @method Api\SecurePay createSecurePay()
- *
- * Yuansfer Integrated Payment
  * @method Api\Process createProcess()
  * @method Api\Prepay createPrepay()
- *
- * Point of Sale Integration
- * * Scan QR Code
  * @method Api\Add createAdd()
- * @method Api\Pay createPay()
- * * Create QR Code
  * @method Api\TransQrcode createTransQrcode()
- *
- *
- * Transaction Revert
  * @method Api\Refund createRefund()
  * @method Api\Cancel createCancel()
- *
- * Transaction Data Search
  * @method Api\TranQuery createTranQuery()
- * @method Api\TransList createTransList()
- * @method Api\SettleList createSettleList()
- * @method Api\WithdrawalList createWithdrawalList()
- * @method Api\DataStatus createDataStatus()
  *
  * Customer
  * @method Api\CustomerAdd createCustomerAdd()
@@ -51,7 +33,8 @@ class Yuansfer
         MERCHANT_NO = 'merchant_no',
         STORE_NO = 'store_no',
         API_TOKEN = 'api_token',
-        TEST_API_TOKEN = 'test_api_token';
+        TEST_API_TOKEN = 'test_api_token',
+        MER_GROUP_NO = 'mer_group_no';
 
     const
         PRODUCTION_MODE = 'production',
@@ -69,6 +52,11 @@ class Yuansfer
      * @var string The store NO.
      */
     protected $storeNo;
+
+    /**
+     * @var string
+     */
+    protected $merGroupNo;
 
     /**
      * @var string Yuansfer token
@@ -113,6 +101,10 @@ class Yuansfer
 
                 case static::TEST_API_TOKEN:
                     $this->setTestApiToken($v);
+                    break;
+
+                case static::MER_GROUP_NO:
+                    $this->setMerGroupNo($v);
                     break;
             }
         }
@@ -166,6 +158,26 @@ class Yuansfer
     public function setStoreNo($no)
     {
         $this->storeNo = $no;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMerGroupNo()
+    {
+        return $this->merGroupNo;
+    }
+
+    /**
+     * @param string $no
+     *
+     * @return self
+     */
+    public function setMerGroupNo($no)
+    {
+        $this->merGroupNo = $no;
 
         return $this;
     }
