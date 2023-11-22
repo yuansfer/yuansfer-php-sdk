@@ -5,7 +5,7 @@
 [![Monthly Downloads](https://poser.pugx.org/yuansfer/yuansfer-php-sdk/d/monthly)](https://packagist.org/packages/yuansfer/yuansfer-php-sdk)
 [![License](https://poser.pugx.org/yuansfer/yuansfer-php-sdk/license)](https://packagist.org/packages/yuansfer/yuansfer-php-sdk)
 
-[Yuansfer Online API](https://docs.yuansfer.com/)
+[Yuansfer Online API](https://docs.pockyt.io/)
 
 
 ## Requirements
@@ -15,8 +15,6 @@
 
 
 ## Installation
-
-### With Composer (recommended)
 
 1. Install composer:
    
@@ -30,7 +28,7 @@
 2. Run the Composer command to install the latest version of SDK:
 
     ```sh
-    php composer.phar require yuansfer/yuansfer-php-sdk
+    $ php composer.phar require yuansfer/yuansfer-php-sdk
     ```
 
 3. Require Composer's autoloader in your PHP script (assuming it is in the same directory where you installed Composer):
@@ -38,19 +36,6 @@
       ```php
       require('vendor/autoload.php');
       ```
-### PHAR with bundled dependencies
-
-**This is not recommended! Use [Composer](http://getcomposer.org) as modern way of working with PHP packages.**
-
-1. Download [PHAR file](https://github.com/yuansfer/yuansfer-php-sdk/releases/latest)
-
-2. Require files:
-  
-    ```php
-    require('path-to-sdk/yuansfer-php-sdk.phar');
-    ```
-
-Please keep in mind that bundled dependencies may interfere with your other dependencies.
 
 ## Usage
 
@@ -65,6 +50,7 @@ $config = array(
     Yuansfer::STORE_NO => 'The store NO.',
     Yuansfer::API_TOKEN => 'Yuansfer API token',
     Yuansfer::TEST_API_TOKEN => 'Yuansfer API token for test mode',
+    Yuansfer::MER_GROUP_NO => 'The merchant group NO, optional.',
 );
 
 $yuansfer = new Yuansfer($config);
@@ -80,6 +66,7 @@ $api = $yuansfer->createSecurePay();
 $api
     ->setAmount(9.9) //The amount of the transaction.
     ->setCurrency('USD') // The currency, USD, CAD supported yet.
+    ->setSettleCurrency('USD') // When the currency is "GBP", the settlement currency is "GBP". All other currencies settle with "USD"
     ->setVendor('alipay') // The payment channel, alipay, wechatpay, unionpay, enterprisepay are supported yet.
     ->setReference('44444') //The unque ID of client's system.
     ->setIpnUrl('http://domain/example/callback_secure_pay_ipn.php') // The asynchronous callback method.
@@ -127,58 +114,43 @@ try {
 }
 ```
 
-
-
 ## API Documents
 
-[Official Documents](https://docs.yuansfer.com/)
+[Official Documents](https://docs.pockyt.io/)
 
-### Payments
+### IN-STORE API'S
 
-#### Online Payment
-
-##### Yuansfer Checkout
-
-| API                                                          | Call                           | Description                       |
-| ------------------------------------------------------------ | ------------------------------ | --------------------------------- |
-| [secure-pay()](https://docs.yuansfer.com/api-reference-v3/payments/online-payment/secure-pay) | `$yuansfer->createSecurePay()` | This is used to pay for an order. |
-
-##### Yuansfer Integrated Payment
-
-| API                                                          | Call                        | Description                                          |
-| ------------------------------------------------------------ | --------------------------- | ---------------------------------------------------- |
-| [prepay()](https://docs.yuansfer.com/api-reference-v3/payments/online-payment/prepay) | `$yuansfer->createPrepay()` | This API does the mobile payment for the POS system. |
-
-#### Point of Sale Payment
-
-##### Scan QR Code
-
-| API                                                          | Call                     | Description                                                  |
-| ------------------------------------------------------------ | ------------------------ | ------------------------------------------------------------ |
-| [add()](https://docs.yuansfer.com/api-reference-v3/payments/in-store-payment/scan-qrcode/add) | `$yuansfer->createAdd()` | This API initiates a **Barcode/QR Code Payment** request and creates a transaction order. |
-| [pay()](https://docs.yuansfer.com/api-reference-v3/payments/in-store-payment/scan-qrcode/pay) | `$yuansfer->createPay()` | This API places an order in the **Barcode/QR Code Payment**. |
-
-#### Create QR Code
+#### Merchant Presented Workflow
 
 | API                                                          | Call                             | Description                                                  |
 | ------------------------------------------------------------ | -------------------------------- | ------------------------------------------------------------ |
-| [create-trans-qrcode()](https://docs.yuansfer.com/api-reference-v3/payments/in-store-payment/create-qrcode) | `$yuansfer->createTransQrcode()` | This API creates a transaction and get a QR code for customers to scan to pay in the **Transaction QR Code Payment** process. Customers scan this QR code using the wallet app to checkout. |
+| [create-trans-qrcode()](https://docs.pockyt.io/in-store-apis/merchant-presented-workflow/create-qrc-api) | `$yuansfer->createTransQrcode()` | This API generates a QR Code and transaction number for the customer to scan via their digital wallet app, allowing them to initiate the payment process. |
 
-### Transaction Revert
+#### Customer Presented Workflow
 
-| API                                                          | Call                        | Description                                    |
-| ------------------------------------------------------------ | --------------------------- | ---------------------------------------------- |
-| [refund()](https://docs.yuansfer.com/#refund)                | `$yuansfer->createRefund()` | This API refunds the payment of a transaction. |
-| [cancel()](https://docs.yuansfer.com/api-reference-v3/transaction-revert/cancel) | `$yuansfer->createCancel()` | This API cancels the payment of a transaction. |
+| API                                                          | Call                     | Description                                                  |
+| ------------------------------------------------------------ | ------------------------ | ------------------------------------------------------------ |
+| [add()](https://docs.pockyt.io/in-store-apis/customer-presented-workflow/add-transaction-api) | `$yuansfer->createAdd()` | This API enables the creation of a transaction object and allows the customer to retrieve a transaction number for initiating payment. |
+| [prepay()](https://docs.pockyt.io/in-store-apis/customer-presented-workflow/pay-transaction-api) | `$yuansfer->createPrepay()`  | This will allow customers to make the final confirmation before submitting payment which will process through the digital wallet servers. |
+| [cancel()](https://docs.pockyt.io/in-store-apis/cancel-api) | `$yuansfer->createCancel()` | This API allows for canceling a payment transaction in either use case when the transaction is abandoned before submission, ensuring that merchants can efficiently manage their transactions. |
 
+### REFUND AND QUERY API'S
 
+| API                                                          | Call                        | Description                                                                                                                                   |
+| ------------------------------------------------------------ | --------------------------- |-----------------------------------------------------------------------------------------------------------------------------------------------|
+| [refund()](https://docs.pockyt.io/refund-and-query-apis/refund-api)                | `$yuansfer->createRefund()` | In the instance where a customer requests a refund, the following request and response objects are initiated to complete the refund workflow. |
+| [tran-query()](https://docs.pockyt.io/refund-and-query-apis/query-api) | `$yuansfer->createTranQuery()`      | This API is used for polling transaction results, researching transactions for refunds, and generating custom reports.                        |
 
-### Transaction Data Search
+### ECOMMERCE API'S
 
-| API                                                          | Call                                | Description                                                  |
-| ------------------------------------------------------------ | ----------------------------------- | ------------------------------------------------------------ |
-| [tran-query()](https://docs.yuansfer.com/api-reference-v3/transaction-data-search/tran-query) | `$yuansfer->createTranQuery()`      | This API gets the transaction details by ID of a transaction in the merchant's system. |
-| [trans-list()](https://docs.yuansfer.com/api-reference-v3/transaction-data-search/trans-list) | `$yuansfer->createTransList()`      | This API gets all transaction details for a given time period. |
-| [settle-list()](https://docs.yuansfer.com/api-reference-v3/transaction-data-search/settle-list) | `$yuansfer->createSettleList()`     | This API gets all settlement details for a given time period. |
-| [withdrawal-list()](https://docs.yuansfer.com/api-reference-v3/transaction-data-search/withdrawal-list) | `$yuansfer->createWithdrawalList()` | This API gets all withdrawal details for a given time period. |
-| [data-status()](https://docs.yuansfer.com/api-reference-v3/transaction-data-search/data-status) | `$yuansfer->createDataStatus()`     | This API gets the settlement status for a given date.        |
+#### Pockyt Hosted Checkout
+
+| API                                                          | Call                           | Description                       |
+| ------------------------------------------------------------ | ------------------------------ | --------------------------------- |
+| [secure-pay()](https://docs.pockyt.io/ecommerce-apis/pockyt-hosted-checkout/securepay-api) | `$yuansfer->createSecurePay()` | By using this API, the merchant website can send customers to Pockyt to receive payments. |
+
+#### Pockyt Integrated Payments
+
+| API                                                          | Call                         | Description                                                                                                                                                                                          |
+| ------------------------------------------------------------ | ---------------------------- |------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [process()](https://docs.pockyt.io/pockyt-integrated-payments/process-api) | `$yuansfer->createProcess()` | Utilize our Partner Payment Gateways to accept popular wallets such as PayPal, Venmo, Google Pay, and Apple Pay. When integrating with Partner Payment Gateways, utilize both the 'process' endpoint |

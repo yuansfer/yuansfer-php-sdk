@@ -10,7 +10,7 @@ use Yuansfer\Exception\InvalidParamException;
  *
  * @package Yuansfer\Api
  * @author  FENG Hao <flyinghail@msn.com>
- * @see     https://docs.yuansfer.com/api-reference-v3/transaction-revert/refund
+ * @see     https://docs.pockyt.io/refund-and-query-apis/refund-api
  *
  * @method $this setRefundReference(string $refundReference)
  */
@@ -25,7 +25,7 @@ class Refund extends AbstractApi
             array('reference', 'transactionNo'),
         ));
 
-        $this->addCallabe(array(
+        $this->addCallable(array(
             'refundReference',
         ));
 
@@ -59,9 +59,7 @@ class Refund extends AbstractApi
             throw new InvalidParamException('The param `refundAmount` is invalid in refund');
         }
 
-        $this->params['refundAmount'] = $amount;
-
-        return $this;
+        return $this->setParams('refundAmount', $amount);
     }
 
     /**
@@ -71,9 +69,7 @@ class Refund extends AbstractApi
      */
     public function setCurrency($currency)
     {
-        $this->params['currency'] = \strtoupper($currency);
-
-        return $this;
+        return $this->setParams('currency', \strtoupper($currency));
     }
 
     /**
@@ -83,9 +79,7 @@ class Refund extends AbstractApi
      */
     public function setSettleCurrency($currency)
     {
-        $this->params['settleCurrency'] = \strtoupper($currency);
-
-        return $this;
+        return $this->setParams('settleCurrency', \strtoupper($currency));
     }
 
     /**
@@ -95,10 +89,9 @@ class Refund extends AbstractApi
      */
     public function setReference($reference)
     {
-        $this->params['reference'] = $reference;
         unset($this->params['transactionNo']);
 
-        return $this;
+        return $this->setParams('reference', $reference);
     }
 
     /**
@@ -108,9 +101,8 @@ class Refund extends AbstractApi
      */
     public function setTransactionNo($transactionNo)
     {
-        $this->params['transactionNo'] = $transactionNo;
         unset($this->params['reference']);
 
-        return $this;
+        return $this->setParams('transactionNo', $transactionNo);
     }
 }

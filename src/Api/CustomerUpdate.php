@@ -36,7 +36,7 @@ class CustomerUpdate extends AbstractApi
             'zip',
         ));
 
-        $this->addCallabe(array(
+        $this->addCallable(array(
             'firstName',
             'lastName',
             'customerCode',

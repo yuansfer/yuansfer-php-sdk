@@ -9,7 +9,7 @@ use Yuansfer\Exception\InvalidParamException;
  *
  * @package Yuansfer\Api
  * @author  FENG Hao <flyinghail@msn.com>
- * @see     https://docs.yuansfer.com/api-reference-v3/payments/online-payment/secure-pay
+ * @see     https://docs.pockyt.io/ecommerce-apis/pockyt-hosted-checkout/securepay-api
  *
  * @method $this setCallbackUrl(string $callbackUrl)
  * @method $this setDescription(string $description)
@@ -37,7 +37,7 @@ class SecurePay extends AbstractApi
             'reference',
         ));
 
-        $this->addCallabe(array(
+        $this->addCallable(array(
             'callbackUrl',
             'description',
             'ipnUrl',
@@ -69,9 +69,8 @@ class SecurePay extends AbstractApi
             throw new InvalidParamException('The param `amount` is invalid in securepay');
         }
 
-        $this->params['amount'] = $amount;
-
-        return $this->validate('amount');
+        return $this->setParams('amount', $amount)
+            ->validate('amount');
     }
 
     /**
@@ -81,9 +80,8 @@ class SecurePay extends AbstractApi
      */
     public function setCurrency($currency)
     {
-        $this->params['currency'] = \strtoupper($currency);
-
-        return $this->validate('currency');
+        return $this->setParams('currency', \strtoupper($currency))
+            ->validate('currency');
     }
 
     /**
@@ -93,9 +91,8 @@ class SecurePay extends AbstractApi
      */
     public function setSettleCurrency($currency)
     {
-        $this->params['settleCurrency'] = \strtoupper($currency);
-
-        return $this->validate('settleCurrency');
+        return $this->setParams('settleCurrency', \strtoupper($currency))
+            ->validate('settleCurrency');
     }
 
     /**
@@ -108,11 +105,11 @@ class SecurePay extends AbstractApi
     {
         $terminal = \strtoupper($terminal);
 
-        if (!\in_array($terminal, array('ONLINE', 'WAP', 'MWEB'), true)) {
+        if (!\in_array($terminal, array('ONLINE', 'WAP', 'MWEB', 'YIP'), true)) {
             throw new InvalidParamException('The param `terminal` is invalid in securepay');
         }
 
-        $this->params['terminal'] = $terminal;
+        $this->setParams('terminal', $terminal);
 
         if (!isset($this->params['osType'])) {
             if ($terminal === 'WAP' || $terminal === 'MWEB') {
@@ -125,7 +122,7 @@ class SecurePay extends AbstractApi
             }
         }
 
-        return $this;
+        return $this->validate('terminal');
     }
 
     /**
@@ -138,7 +135,7 @@ class SecurePay extends AbstractApi
         $timeout = (int) $timeout;
 
         if ($timeout > 0) {
-            $this->params['timeout'] = (int) $timeout;
+            $this->setParams('timeout', $timeout);
         }
 
         return $this;
@@ -152,11 +149,15 @@ class SecurePay extends AbstractApi
      */
     public function setVendor($vendor)
     {
-        if (!\in_array($vendor, array('alipay', 'wechatpay', 'unionpay', 'creditcard', 'paypal', 'venmo'), true)) {
+        if (!\in_array($vendor, array(
+            'alipay', 'wechatpay', 'unionpay', 'creditcard', 'paypal', 'venmo',
+            'truemoney', 'alipay_hk', 'tng', 'gcash', 'dana', 'kakaopay', 'bkash', 'easypaisa',
+            'googlepay', 'applepay'
+        ), true)) {
             throw new InvalidParamException('The param `vender` is invalid in securepay');
         }
 
-        $this->params['vendor'] = $vendor;
+        $this->setParams('vendor', $vendor);
 
         if (!isset($this->params['terminal'])) {
             $terminal = self::$detect->isMobile() ? 'WAP' : 'ONLINE';
@@ -180,9 +181,7 @@ class SecurePay extends AbstractApi
             throw new InvalidParamException('The param `goodsInfo` must be an array');
         }
 
-        $this->params['goodsInfo'] = \json_encode($goodsInfo);
-
-        return $this;
+        return $this->setParams('goodsInfo', \json_encode($goodsInfo));
     }
 
     /**
@@ -196,9 +195,7 @@ class SecurePay extends AbstractApi
             throw new InvalidParamException('The param `creditType` is invalid in securepay');
         }
 
-        $this->params['creditType'] = $creditType;
-
-        return $this;
+        return $this->setParams('creditType', $creditType);
     }
 
     /**
@@ -212,9 +209,7 @@ class SecurePay extends AbstractApi
             throw new InvalidParamException('The param `osType` is invalid in securepay');
         }
 
-        $this->params['osType'] = $osType;
-
-        return $this;
+        return $this->setParams('osType', $osType);
     }
 
     /**
@@ -229,6 +224,10 @@ class SecurePay extends AbstractApi
                 return $this->validateAmount();
 
             case 'vendor':
+                return $this->validateVendor()
+                    ->validateCurrency()
+                    ->validateSettleCurrency()
+                    ->validateAmount();
             case 'currency':
                 return $this->validateCurrency()
                     ->validateSettleCurrency()
@@ -237,9 +236,29 @@ class SecurePay extends AbstractApi
             case 'settleCurrency':
                 return $this->validateSettleCurrency();
 
+            case 'terminal':
+                return $this->validateVendor();
+
             default:
                 return $this;
         }
+    }
+
+    protected function validateVendor()
+    {
+        if (!isset($this->params['terminal'], $this->params['vendor'])) {
+            return $this;
+        }
+
+        if ($this->params['terminal'] === 'YIP') {
+            if (!\in_array($this->params['vendor'], array('paypal', 'venmo', 'creditcard', 'applepay', 'googlepay'), true)) {
+                throw new InvalidParamException('"YIP" terminal only support "' . implode('", "', $this->params['vendor']) . '" for vendor');
+            }
+        } else if (\in_array($this->params['vendor'], array('applepay', 'googlepay'), true)) {
+            throw new InvalidParamException('"' . $this->params['vendor'] . '" not supported by "' . $this->params['terminal'] . '" terminal');
+        }
+
+        return $this;
     }
 
     protected function validateCurrency()
@@ -248,25 +267,69 @@ class SecurePay extends AbstractApi
             return $this;
         }
 
-        if ($this->params['vendor'] === 'creditcard') {
-            if ($this->params['currency'] !== 'USD') {
-                throw new InvalidParamException('Credit Card only support "USD" for currency');
-            }
-        } elseif ($this->params['vendor'] === 'unionpay') {
-            if (!in_array($this->params['currency'], array('USD', 'CNY'), true)) {
-                throw new InvalidParamException('Union Pay only support "USD", "CNY" for currency');
-            }
-        } elseif ($this->params['vendor'] === 'wechatpay') {
-            if (!in_array($this->params['currency'], array('USD', 'CNY'), true)) {
-                throw new InvalidParamException('WeChat Pay only support "USD", "CNY" for currency');
-            }
-        } elseif ($this->params['vendor'] === 'alipay') {
-            if (!in_array($this->params['currency'], array('USD', 'CNY', 'PHP', 'IDR', 'KRW', 'HKD', 'GBP'), true)) {
-                throw new InvalidParamException('Alipay only support “USD“, “CNY“, “PHP“, “IDR“, “KRW“, “HKD“, “GBP“ for currency');
-            }
-        } elseif (in_array($this->params['vendor'], array('paypal', 'venmo'), true)) {
-            if ($this->params['currency'] !== 'USD') {
-                throw new InvalidParamException(ucfirst($this->params['vendor']) . ' only support "USD" for currency');
+        static $settings = array(
+            'creditcard' => array(
+                'Credit Card',
+                array('USD')
+            ),
+            'unionpay' => array(
+                'Union Pay',
+                array('USD', 'CNY')
+            ),
+            'wechatpay' => array(
+                'Wechat Pay',
+                array('USD', 'CNY')
+            ),
+            'alipay' => array(
+                'Alipay',
+                array('USD', 'CNY', 'GBP')
+            ),
+            'paypal' => array(
+                'Paypal',
+                array('USD')
+            ),
+            'venmo' => array(
+                'Venmo',
+                array('USD')
+            ),
+            'truemoney' => array(
+                'TrueMoney',
+                array('THB')
+            ),
+            'alipay_hk' => array(
+                'Alipay HK',
+                array('HKD')
+            ),
+            'tng' => array(
+                'Touch\'n Go',
+                array('MYR')
+            ),
+            'gcash' => array(
+                'Gcash',
+                array('PHP')
+            ),
+            'dana' => array(
+                'Dana',
+                array('IDR')
+            ),
+            'kakaopay' => array(
+                'KakaoPay',
+                array('KRW')
+            ),
+            'bkash' => array(
+                'bKash',
+                array('BDT')
+            ),
+            'easypaisa' => array(
+                'EasyPaisa',
+                array('PKR')
+            ),
+        );
+
+        if (isset($settings[$this->params['vendor']])) {
+            list($name, $currency) = $settings[$this->params['vendor']];
+            if (!in_array($this->params['currency'], $currency, true)) {
+                throw new InvalidParamException($name . ' only support "' . implode('", "', $currency) . '" for currency');
             }
         }
 
@@ -302,30 +365,22 @@ class SecurePay extends AbstractApi
             return $this;
         }
 
-        switch ($this->params['currency']) {
-            case 'PHP':
-                if ($this->params['amount'] < 1) {
-                    throw new InvalidParamException('The minimum value is 1PHP');
-                }
-                break;
+        static $settings = array(
+            'PHP' => 1,
+            'THB' => 1,
+            'MYR' => 1,
+            'IDR' => 300,
+            'KRW' => 50,
+            'HKD' => 0.1,
+            'BDT' => 0.01,
+            'PKR' => 100,
+        );
 
-            case 'IDR':
-                if ($this->params['amount'] < 300) {
-                    throw new InvalidParamException('The minimum value is 300IDR');
-                }
-                break;
-
-            case 'KRW':
-                if ($this->params['amount'] < 50) {
-                    throw new InvalidParamException('The minimum value is 50KRW');
-                }
-                break;
-
-            case 'HKD':
-                if ($this->params['amount'] < 0.1) {
-                    throw new InvalidParamException('The minimum value is 0.1HKD');
-                }
-                break;
+        if (
+            isset($settings[$this->params['currency']]) &&
+            $this->params['amount'] < $settings[$this->params['currency']]
+        ) {
+            throw new InvalidParamException('The minimum value is ' . $settings[$this->params['currency']] . $this->params['currency']);
         }
 
         return $this;

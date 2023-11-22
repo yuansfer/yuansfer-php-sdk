@@ -76,7 +76,7 @@ abstract class AbstractApi implements ApiInterface
     /**
      * @param array|string $fields
      */
-    protected function addCallabe($fields)
+    protected function addCallable($fields)
     {
         $this->callable = \array_unique(
             \array_merge($this->callable, (array) $fields), \SORT_REGULAR
@@ -120,7 +120,7 @@ abstract class AbstractApi implements ApiInterface
             $key = \lcfirst(\substr($name, 3));
 
             if (\in_array($key, $this->callable, true)) {
-                $this->params[$key] = $arguments[0];
+                $this->setParams($key, $arguments[0]);
 
                 return $this;
             }
@@ -145,6 +145,13 @@ abstract class AbstractApi implements ApiInterface
 
         if (!isset($this->params['storeNo'])) {
             $this->params['storeNo'] = $this->yuansfer->getStoreNo();
+        }
+
+        if (!isset($this->params['merGroupNo'])) {
+            $merGroupNo = $this->yuansfer->getMerGroupNo();
+            if ($merGroupNo) {
+                $this->params['merGroupNo'] = $merGroupNo;
+            }
         }
 
         foreach ($this->getRequired() as $k) {
@@ -187,5 +194,32 @@ abstract class AbstractApi implements ApiInterface
         } catch (ConnectionErrorException $e) {
             throw new HttpClientException($e->getMessage(), $e->getCode(), $e);
         }
+    }
+
+    /**
+     * @param string $merGroupNo
+     *
+     * @return $this
+     */
+    public function setMerGroupNo($merGroupNo)
+    {
+        return $this->setParams('merGroupNo', $merGroupNo);
+    }
+
+    /**
+     * It is not recommended to use this function to set parameters.
+     * If the API parameters have been updated and the SDK has not yet been updated,
+     * this function can be used temporarily to fill in parameters that are not encapsulated into a function.
+     *
+     * @param string $name
+     * @param mixed $value
+     *
+     * @return $this
+     */
+    public function setParams($name, $value)
+    {
+        $this->params[$name] = $value;
+
+        return $this;
     }
 }
