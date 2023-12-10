@@ -55,7 +55,7 @@ class SecurePay extends AbstractApi
 
     protected function getPath()
     {
-        return 'online/' . self::VERSION . '/secure-pay';
+        return 'online/v3/secure-pay';
     }
 
     /**

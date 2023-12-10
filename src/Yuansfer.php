@@ -23,8 +23,8 @@ use Yuansfer\Util\Sign;
  * @method Api\TranQuery createTranQuery()
  *
  * Customer
- * @method Api\CustomerAdd createCustomerAdd()
- * @method Api\CustomerQuery createCustomerQuery()
+ * @method Api\CustomerCreate createCustomerAdd()
+ * @method Api\CustomerRetrieve createCustomerQuery()
  * @method Api\CustomerUpdate createCustomerUpdate()
  */
 class Yuansfer

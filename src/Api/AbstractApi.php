@@ -76,6 +76,14 @@ abstract class AbstractApi implements ApiInterface
     /**
      * @param array|string $fields
      */
+    protected function removeRequired($fields)
+    {
+        $this->required = \array_diff($this->required, (array) $fields);
+    }
+
+    /**
+     * @param array|string $fields
+     */
     protected function addCallable($fields)
     {
         $this->callable = \array_unique(
@@ -102,6 +110,13 @@ abstract class AbstractApi implements ApiInterface
     protected function responseType()
     {
         return 'json';
+    }
+
+    /**
+     * @return array
+     */
+    protected function paramsHook($params) {
+        return $params;
     }
 
     /**
@@ -177,7 +192,10 @@ abstract class AbstractApi implements ApiInterface
             }
         }
 
-        $params = Sign::append($this->params, $this->yuansfer->getApiToken());
+        $params = Sign::append(
+            $this->paramsHook($this->params),
+            $this->yuansfer->getApiToken()
+        );
 
         try {
             $response = Request::post($url, $params, 'form')

@@ -34,7 +34,7 @@ class Refund extends AbstractApi
 
     protected function getPath()
     {
-        return 'app-data-search/' . self::VERSION . '/refund';
+        return 'app-data-search/v3/refund';
     }
 
     /**

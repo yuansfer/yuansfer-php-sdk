@@ -45,7 +45,7 @@ class Prepay extends AbstractApi
 
     protected function getPath()
     {
-        return 'micropay/' . self::VERSION . '/prepay';
+        return 'micropay/v3/prepay';
     }
 
     /**
