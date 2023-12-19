@@ -23,9 +23,24 @@ use Yuansfer\Util\Sign;
  * @method Api\TranQuery createTranQuery()
  *
  * Customer
- * @method Api\CustomerCreate createCustomerAdd()
- * @method Api\CustomerRetrieve createCustomerQuery()
+ * @method Api\CustomerCreate createCustomerCreate()
+ * @method Api\CustomerRetrieve createCustomerRetrieve()
  * @method Api\CustomerUpdate createCustomerUpdate()
+ *
+ * Payout
+ * @method Api\PayeeAddBank createPayeeAddBank()
+ * @method Api\PayeeRegister createPayeeRegister()
+ * @method Api\PayeeRetrieve createPayeeRetrieve()
+ * @method Api\PayeeTransfer createPayeeTransfer()
+ * @method Api\PayeeUpdate createPayeeUpdate()
+ * @method Api\PayoutPay createPayoutPay()
+ *
+ * YIP
+ * @method Api\YipOrderCapture createYipOrderCapture()
+ * @method Api\YipOrderProcess createYipOrderProcess()
+ * @method Api\YipSecurePay createYipSecurePay()
+ * @method Api\YipSecurePayVault createYipSecurePayVault()
+ * @method Api\YipSecurePayVaultSaved createYipSecurePayVaultSaved()
  */
 class Yuansfer
 {
