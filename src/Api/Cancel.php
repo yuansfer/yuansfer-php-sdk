@@ -25,7 +25,7 @@ class Cancel extends AbstractApi
 
     protected function getPath()
     {
-        return 'app-data-search/' . ApiInterface::VERSION . '/cancel';
+        return 'app-data-search/v3/cancel';
     }
 
     /**

@@ -23,7 +23,7 @@ class TranQuery extends AbstractApi
 
     protected function getPath()
     {
-        return 'app-data-search/' . self::VERSION . '/tran-query';
+        return 'app-data-search/v3/tran-query';
     }
 
     /**

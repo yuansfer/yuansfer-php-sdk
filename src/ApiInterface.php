@@ -12,8 +12,6 @@ use Yuansfer\Exception\YuansferException;
  */
 interface ApiInterface
 {
-    const VERSION = 'v3';
-
     /**
      * @return string
      * @throws YuansferException

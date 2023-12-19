@@ -34,7 +34,7 @@ class Process extends AbstractApi
 
     protected function getPath()
     {
-        return 'creditpay/' . self::VERSION . '/process';
+        return 'creditpay/v3/process';
     }
 
     /**

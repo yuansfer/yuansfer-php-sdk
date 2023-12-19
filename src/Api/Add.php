@@ -34,7 +34,7 @@ class Add extends AbstractApi
 
     protected function getPath()
     {
-        return 'app-instore/' . self::VERSION . '/add';
+        return 'app-instore/v3/add';
     }
 
     /**
