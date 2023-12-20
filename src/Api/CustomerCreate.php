@@ -4,32 +4,29 @@
 namespace Yuansfer\Api;
 
 /**
- * Class CustomerUpdate
+ * Class CustomerCreate
  *
  * @package Yuansfer\Api
  * @author  FENG Hao <flyinghail@msn.com>
  *
- * @method $this setCity(string $city)
- * @method $this setCompany(string $company)
- * @method $this setCountry(string $country)
- * @method $this setCreatedTime(string $createdTime)
- * @method $this setCustomerCode(string $customerCode)
- * @method $this setCustomerNo(string $customerNo)
- * @method $this setDateOfBirth(string $dateOfBirth)
- * @method $this setEmail(string $email)
+ * @method $this setZip(string $zip)
  * @method $this setFirstName(string $firstName)
  * @method $this setLastName(string $lastName)
- * @method $this setLang(string $lang)
- * @method $this setMobileNumber(string $mobileNumber)
+ * @method $this setCustomerCode(string $customerCode)
+ * @method $this setEmail(string $email)
+ * @method $this setCountry(string $country)
+ * @method $this setCity(string $city)
+ * @method $this setDateOfBirth(string $dateOfBirth)
  * @method $this setPhone(string $phone)
- * @method $this setProfileType(string $profileType)
- * @method $this setState(string $state)
  * @method $this setStreet(string $street)
  * @method $this setStreet2(string $street2)
- * @method $this setUpdatedTime(string $updatedTime)
- * @method $this setZip(string $zip)
+ * @method $this setState(string $state)
+ * @method $this setLang(string $lang)
+ * @method $this setProfileType(string $profileType)
+ * @method $this setCompany(string $company)
+ * @method $this setMobileNumber(string $mobileNumber)
  */
-class CustomerUpdate extends AbstractApi
+class CustomerCreate extends AbstractApi
 {
     public function __construct($yuansfer)
     {
@@ -41,26 +38,23 @@ class CustomerUpdate extends AbstractApi
         ));
 
         $this->addCallable(array(
-            'city',
-            'company',
-            'country',
-            'countryCode',
-            'createdTime',
-            'customerCode',
-            'customerNo',
-            'dateOfBirth',
-            'email',
+            'zip',
             'firstName',
             'lastName',
-            'lang',
-            'mobileNumber',
+            'customerCode',
+            'email',
+            'country',
+            'city',
+            'dateOfBirth',
             'phone',
-            'profileType',
-            'state',
+            'countryCode',
             'street',
             'street2',
-            'updatedTime',
-            'zip',
+            'state',
+            'lang',
+            'profileType',
+            'company',
+            'mobileNumber',
         ));
 
         parent::__construct($yuansfer);
@@ -68,7 +62,7 @@ class CustomerUpdate extends AbstractApi
 
     protected function getPath()
     {
-        return 'v1/customers/update';
+        return 'v1/customers/create';
     }
 
     /**

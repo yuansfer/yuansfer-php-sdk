@@ -37,7 +37,7 @@ class TransQrcode extends AbstractApi
 
     protected function getPath()
     {
-        return 'app-instore/' . self::VERSION . '/create-trans-qrcode';
+        return 'app-instore/v3/create-trans-qrcode';
     }
 
 
