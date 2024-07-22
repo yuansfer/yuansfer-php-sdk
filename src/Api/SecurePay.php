@@ -160,7 +160,17 @@ class SecurePay extends AbstractApi
         $this->setParams('vendor', $vendor);
 
         if (!isset($this->params['terminal'])) {
-            $terminal = self::$detect->isMobile() ? 'WAP' : 'ONLINE';
+            // To determine if it is a PC logging into WeChat when inside the WeChat built-in browser.
+            if(self::$detect->match('MicroMessenger')){
+                if(self::$detect->match('MacWechat')|| self::$detect->match('WindowsWechat')){
+                    $terminal = 'ONLINE';
+                }else{
+                    $terminal = 'WAP';
+                }
+            }else{
+                $terminal = self::$detect->isMobile() ? 'WAP' : 'ONLINE';
+            }
+            // print_r($terminal);
             if ($vendor === 'wechatpay' && $terminal === 'WAP' && !self::$detect->is('WeChat')) {
                 $terminal = 'MWEB';
             }
