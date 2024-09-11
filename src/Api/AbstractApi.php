@@ -199,6 +199,7 @@ abstract class AbstractApi implements ApiInterface
 
         try {
             $response = Request::post($url, $params, 'form')
+                ->withStrictSSL()
                 ->addHeader('Accept', 'application/json')
                 ->expects($this->responseType())
                 ->send();
